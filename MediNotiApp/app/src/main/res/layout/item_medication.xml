@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Nombre del medicamento -->
+    <TextView
+        android:id="@+id/tvMedicationName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre del Medicamento"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <!-- Dosis del medicamento -->
+    <TextView
+        android:id="@+id/tvMedicationDosage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dosis: 1 pastilla"
+        android:textSize="16sp" />
+
+    <!-- Botones de acción -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <!-- Botón para registrar toma -->
+        <Button
+            android:id="@+id/btnTakeMedication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tomar" />
+
+        <!-- Botón para editar medicamento -->
+        <Button
+            android:id="@+id/btnEditMedication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+</LinearLayout>

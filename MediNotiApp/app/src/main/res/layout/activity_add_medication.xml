@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Campo para el nombre del medicamento -->
+    <EditText
+        android:id="@+id/etMedicationName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del medicamento"
+        android:inputType="text"
+        android:importantForAccessibility="yes" />
+
+    <!-- Campo para la dosis del medicamento -->
+    <EditText
+        android:id="@+id/etMedicationDosage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dosis (ej. 500 mg)"
+        android:inputType="text"
+        android:layout_marginTop="8dp"
+        android:importantForAccessibility="yes" />
+
+    <!-- Campo para la frecuencia del medicamento -->
+    <EditText
+        android:id="@+id/etMedicationFrequency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Frecuencia (ej. Cada 8 horas)"
+        android:inputType="text"
+        android:layout_marginTop="8dp"
+        android:importantForAccessibility="yes" />
+
+    <!-- Botón para guardar el medicamento -->
+    <Button
+        android:id="@+id/btnSaveMedication"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar Medicamento"
+        android:textAllCaps="false"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
