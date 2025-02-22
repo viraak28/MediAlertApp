@@ -2,6 +2,7 @@ package com.medialert.medinotiapp.data
 
 import androidx.room.*
 import com.medialert.medinotiapp.models.Medication
+import com.medialert.medinotiapp.models.Take
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -20,4 +21,10 @@ interface MedicationDao {
 
     @Delete
     suspend fun delete(medication: Medication)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertTake(take: Take)
+
+    @Query("SELECT * FROM takes WHERE medicationId = :medicationId")
+    fun getTakesForMedication(medicationId: Int): Flow<List<Take>>
 }

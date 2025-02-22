@@ -11,6 +11,7 @@ import com.medialert.medinotiapp.adapters.MedicationAdapter
 import com.medialert.medinotiapp.data.MedicationDatabase
 import com.medialert.medinotiapp.databinding.ActivityMedicationsBinding
 import com.medialert.medinotiapp.models.Medication
+import com.medialert.medinotiapp.models.Take
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -88,9 +89,10 @@ class MedicationsActivity : AppCompatActivity() {
     }
 
     private fun showMedicationTaken(medication: Medication) {
-        Snackbar.make(binding.root, "Medicamento ${medication.name} tomado", Snackbar.LENGTH_SHORT).show()
-        // Aquí implementarías la lógica para registrar la toma del medicamento,
-        // por ejemplo, guardar la información en una base de datos local.
+        lifecycleScope.launch {
+            medicationDatabase.medicationDao().insertTake(Take(medicationId = medication.id))
+            Snackbar.make(binding.root, "Medicamento ${medication.name} tomado", Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     private fun loadMedications() {

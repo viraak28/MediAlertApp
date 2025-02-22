@@ -4,9 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.medialert.medinotiapp.database.Converters
 import com.medialert.medinotiapp.models.Medication
+import com.medialert.medinotiapp.models.Take
 
-@Database(entities = [Medication::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
+@Database(entities = [Medication::class, Take::class], version = 1, exportSchema = false)
 abstract class MedicationDatabase : RoomDatabase() {
 
     abstract fun medicationDao(): MedicationDao
@@ -21,7 +25,7 @@ abstract class MedicationDatabase : RoomDatabase() {
                     context.applicationContext,
                     MedicationDatabase::class.java,
                     "medication_database"
-                )
+                ).addTypeConverter(Converters())
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
