@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MediNotiApp"
+        android:theme="@style/Theme.Medinotiapp"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
@@ -18,13 +18,17 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.AddMedicationActivity" />
+        <activity
+            android:name=".ui.activities.AddMedicationActivity"
+            android:theme="@style/Theme.Medinotiapp.NoActionBar"
+            android:exported="false" />
         <activity android:name=".ui.activities.MedicationDetailActivity" />
-        <activity android:name=".ui.activities.MedicationsActivity" />
+        <activity android:name=".ui.activities.MedicationsActivity"
+            android:theme="@style/Theme.Medinotiapp.NoActionBar"/>
+        <activity android:name=".ui.activities.EditMedicationActivity"
+            android:exported="false"/>
     </application>
-
 </manifest>

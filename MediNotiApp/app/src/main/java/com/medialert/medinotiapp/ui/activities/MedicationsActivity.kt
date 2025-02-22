@@ -3,92 +3,129 @@ package com.medialert.medinotiapp.ui.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.medialert.medinotiapp.R
-import com.medialert.medinotiapp.databinding.ActivityMedicationsBinding
+import com.google.android.material.snackbar.Snackbar
 import com.medialert.medinotiapp.adapters.MedicationAdapter
+import com.medialert.medinotiapp.databinding.ActivityMedicationsBinding
 import com.medialert.medinotiapp.models.Medication
 
 class MedicationsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMedicationsBinding
-    private lateinit var recyclerViewMedications: RecyclerView
-    private lateinit var fabAddMedication: FloatingActionButton
+    private lateinit var adapter: MedicationAdapter
+    private val medications = mutableListOf<Medication>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMedicationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inicializar vistas
-        recyclerViewMedications = findViewById(R.id.recyclerViewMedications)
-        fabAddMedication = findViewById(R.id.fabAddMedication)
+        setupRecyclerView()
+        setupFab()
+    }
 
-        // Configurar RecyclerView con un layout manager y adaptador
-        val medications = listOf(
-            Medication(1, "Paracetamol", "500 mg", "Cada 8 horas"),
-            Medication(2, "Ibuprofeno", "200 mg", "Cada 6 horas"),
-            Medication(3, "Amoxicilina", "1 g", "Cada 12 horas")
+    private fun setupRecyclerView() {
+        adapter = MedicationAdapter(
+            medications,
+            onTakeClick = { medication ->
+                // Acción al hacer clic en "Tomar"
+                showMedicationTaken(medication)
+            },
+            onEditClick = { medication ->
+                // Acción al hacer clic en "Editar"
+                editMedication(medication)
+            },
+            onItemClick = { medication ->
+                // Acción al hacer clic en el item
+                showMedicationDetails(medication)
+            }
         )
-
-        val adapter = MedicationAdapter(medications) { medication ->
-            // Manejar clic en un medicamento (por ejemplo, mostrar detalles)
-            showMedicationDetails(medication)
+        binding.recyclerViewMedications.apply {
+            layoutManager = LinearLayoutManager(this@MedicationsActivity)
+            adapter = this@MedicationsActivity.adapter
         }
 
-        recyclerViewMedications.layoutManager = LinearLayoutManager(this)
-        recyclerViewMedications.adapter = adapter
+        // Cargar medicamentos iniciales (esto podría venir de una base de datos en el futuro)
+        medications.addAll(
+            listOf(
+                Medication(1, "Paracetamol", "500 mg", "Cada 8 horas"),
+                Medication(2, "Ibuprofeno", "200 mg", "Cada 6 horas"),
+                Medication(3, "Amoxicilina", "1 g", "Cada 12 horas")
+            )
+        )
+        adapter.notifyDataSetChanged()
+    }
 
-        // Configurar clic en el botón flotante para agregar medicamentos (aún no implementado)
-        fabAddMedication.setOnClickListener {
-            // Navegar a AddMedicationActivity (futura implementación)
+    private fun setupFab() {
+        binding.fabAddMedication.setOnClickListener {
             addNewMedication()
         }
     }
 
     private fun showMedicationDetails(medication: Medication) {
-        // Crear un Intent para abrir MedicationDetailActivity
-        val intent_m = Intent(this, MedicationDetailActivity::class.java).apply {
-            // Pasar los datos del medicamento seleccionado a la nueva actividad
+        val intent = Intent(this, MedicationDetailActivity::class.java).apply {
             putExtra("MEDICATION_ID", medication.id)
             putExtra("MEDICATION_NAME", medication.name)
             putExtra("MEDICATION_DOSAGE", medication.dosage)
+            putExtra("MEDICATION_FREQUENCY", medication.frequency)
         }
-        // Iniciar la nueva actividad
-        startActivity(intent_m)
+        startActivity(intent)
     }
 
     private fun addNewMedication() {
-        // Crear un Intent para abrir AddMedicationActivity
         val intent = Intent(this, AddMedicationActivity::class.java)
-        // Iniciar la nueva actividad esperando un resultado
         startActivityForResult(intent, ADD_MEDICATION_REQUEST_CODE)
     }
 
-    // Manejar el resultado de AddMedicationActivity
+    private fun editMedication(medication: Medication) {
+        val intent = Intent(this, EditMedicationActivity::class.java).apply {
+            putExtra("MEDICATION_ID", medication.id)
+            putExtra("MEDICATION_NAME", medication.name)
+            putExtra("MEDICATION_DOSAGE", medication.dosage)
+            putExtra("MEDICATION_FREQUENCY", medication.frequency)
+        }
+        startActivityForResult(intent, EDIT_MEDICATION_REQUEST_CODE)
+    }
+
+    private fun showMedicationTaken(medication: Medication) {
+        Snackbar.make(binding.root, "Medicamento ${medication.name} tomado", Snackbar.LENGTH_SHORT).show()
+        // Aquí implementarías la lógica para registrar la toma del medicamento,
+        // por ejemplo, guardar la información en una base de datos local.
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ADD_MEDICATION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // Obtener los datos del nuevo medicamento
             val newMedicationName = data?.getStringExtra("NEW_MEDICATION_NAME")
             val newMedicationDosage = data?.getStringExtra("NEW_MEDICATION_DOSAGE")
+            val newMedicationFrequency = data?.getStringExtra("NEW_MEDICATION_FREQUENCY")
 
-            // Aquí deberías agregar el nuevo medicamento a tu lista de medicamentos
-            // y actualizar el RecyclerView
-            // Por ejemplo:
-            // val newMedication = Medication(generateNewId(), newMedicationName, newMedicationDosage)
-            // medications.add(newMedication)
-            // adapter.notifyDataSetChanged()
+            if (newMedicationName != null && newMedicationDosage != null && newMedicationFrequency != null) {
+                val newId = medications.maxByOrNull { it.id }?.id?.plus(1) ?: 1
+                val newMedication = Medication(newId, newMedicationName, newMedicationDosage, newMedicationFrequency)
+                medications.add(newMedication)
+                adapter.notifyItemInserted(medications.size - 1)
+            }
+        } else if (requestCode == EDIT_MEDICATION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val medicationId = data?.getIntExtra("MEDICATION_ID", -1) ?: -1
+            val editedMedicationName = data?.getStringExtra("MEDICATION_NAME")
+            val editedMedicationDosage = data?.getStringExtra("MEDICATION_DOSAGE")
+            val editedMedicationFrequency = data?.getStringExtra("MEDICATION_FREQUENCY")
+
+            if (medicationId != -1 && editedMedicationName != null && editedMedicationDosage != null && editedMedicationFrequency != null) {
+                val index = medications.indexOfFirst { it.id == medicationId }
+                if (index != -1) {
+                    val updatedMedication = Medication(medicationId, editedMedicationName, editedMedicationDosage, editedMedicationFrequency)
+                    medications[index] = updatedMedication
+                    adapter.notifyItemChanged(index)
+                }
+            }
         }
     }
 
     companion object {
         private const val ADD_MEDICATION_REQUEST_CODE = 1
+        private const val EDIT_MEDICATION_REQUEST_CODE = 2
     }
 }
-
-

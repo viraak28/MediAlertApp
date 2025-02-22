@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:fillViewport="true">
 
-    <!-- Nombre del medicamento -->
-    <TextView
-        android:id="@+id/tvMedicationName"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:text="Nombre del Medicamento" />
+        android:padding="16dp">
 
-    <!-- Dosis del medicamento -->
-    <TextView
-        android:id="@+id/tvMedicationDosage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp"
-        android:text="Dosis del Medicamento" />
+        <TextView
+            android:id="@+id/tvMedicationName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Nombre del Medicamento" />
 
-    <!-- Frecuencia del medicamento -->
-    <TextView
-        android:id="@+id/tvMedicationFrequency"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp"
-        android:text="Frecuencia del Medicamento" />
+        <TextView
+            android:id="@+id/tvMedicationDosage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/tvMedicationName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Dosis: 500mg" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tvMedicationFrequency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/tvMedicationDosage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Frecuencia: Cada 8 horas" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
