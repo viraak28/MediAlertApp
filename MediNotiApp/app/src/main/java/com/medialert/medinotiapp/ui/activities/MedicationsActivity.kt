@@ -4,16 +4,24 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.medialert.medinotiapp.adapters.MedicationAdapter
+import com.medialert.medinotiapp.data.MedicationDatabase
 import com.medialert.medinotiapp.databinding.ActivityMedicationsBinding
 import com.medialert.medinotiapp.models.Medication
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MedicationsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMedicationsBinding
     private lateinit var adapter: MedicationAdapter
+    private lateinit var medicationDatabase: MedicationDatabase
+
     private val medications = mutableListOf<Medication>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,23 +29,24 @@ class MedicationsActivity : AppCompatActivity() {
         binding = ActivityMedicationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        medicationDatabase = MedicationDatabase.getDatabase(this)
+
         setupRecyclerView()
         setupFab()
+
+        loadMedications()
     }
 
     private fun setupRecyclerView() {
         adapter = MedicationAdapter(
             medications,
             onTakeClick = { medication ->
-                // Acción al hacer clic en "Tomar"
                 showMedicationTaken(medication)
             },
             onEditClick = { medication ->
-                // Acción al hacer clic en "Editar"
                 editMedication(medication)
             },
             onItemClick = { medication ->
-                // Acción al hacer clic en el item
                 showMedicationDetails(medication)
             }
         )
@@ -45,16 +54,6 @@ class MedicationsActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MedicationsActivity)
             adapter = this@MedicationsActivity.adapter
         }
-
-        // Cargar medicamentos iniciales (esto podría venir de una base de datos en el futuro)
-        medications.addAll(
-            listOf(
-                Medication(1, "Paracetamol", "500 mg", "Cada 8 horas"),
-                Medication(2, "Ibuprofeno", "200 mg", "Cada 6 horas"),
-                Medication(3, "Amoxicilina", "1 g", "Cada 12 horas")
-            )
-        )
-        adapter.notifyDataSetChanged()
     }
 
     private fun setupFab() {
@@ -94,6 +93,18 @@ class MedicationsActivity : AppCompatActivity() {
         // por ejemplo, guardar la información en una base de datos local.
     }
 
+    private fun loadMedications() {
+        lifecycleScope.launch {
+            medicationDatabase.medicationDao().getAll().collect { medicationsList ->
+                withContext(Dispatchers.Main) {
+                    medications.clear()
+                    medications.addAll(medicationsList)
+                    adapter.notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ADD_MEDICATION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -102,10 +113,14 @@ class MedicationsActivity : AppCompatActivity() {
             val newMedicationFrequency = data?.getStringExtra("NEW_MEDICATION_FREQUENCY")
 
             if (newMedicationName != null && newMedicationDosage != null && newMedicationFrequency != null) {
-                val newId = medications.maxByOrNull { it.id }?.id?.plus(1) ?: 1
-                val newMedication = Medication(newId, newMedicationName, newMedicationDosage, newMedicationFrequency)
-                medications.add(newMedication)
-                adapter.notifyItemInserted(medications.size - 1)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val newMedication = Medication(
+                        name = newMedicationName,
+                        dosage = newMedicationDosage,
+                        frequency = newMedicationFrequency
+                    )
+                    medicationDatabase.medicationDao().insert(newMedication)
+                }
             }
         } else if (requestCode == EDIT_MEDICATION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val medicationId = data?.getIntExtra("MEDICATION_ID", -1) ?: -1
@@ -114,11 +129,14 @@ class MedicationsActivity : AppCompatActivity() {
             val editedMedicationFrequency = data?.getStringExtra("MEDICATION_FREQUENCY")
 
             if (medicationId != -1 && editedMedicationName != null && editedMedicationDosage != null && editedMedicationFrequency != null) {
-                val index = medications.indexOfFirst { it.id == medicationId }
-                if (index != -1) {
-                    val updatedMedication = Medication(medicationId, editedMedicationName, editedMedicationDosage, editedMedicationFrequency)
-                    medications[index] = updatedMedication
-                    adapter.notifyItemChanged(index)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val updatedMedication = Medication(
+                        id = medicationId,
+                        name = editedMedicationName,
+                        dosage = editedMedicationDosage,
+                        frequency = editedMedicationFrequency
+                    )
+                    medicationDatabase.medicationDao().update(updatedMedication)
                 }
             }
         }

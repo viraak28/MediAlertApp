@@ -4,26 +4,25 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.medialert.medinotiapp.data.MedicationDatabase
 import com.medialert.medinotiapp.databinding.ActivityAddMedicationBinding
+import com.medialert.medinotiapp.models.Medication
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AddMedicationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddMedicationBinding
+    private lateinit var medicationDatabase: MedicationDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMedicationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Apply window insets to handle status bar
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(insets.left, insets.top, insets.right, insets.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
+        medicationDatabase = MedicationDatabase.getDatabase(this)
 
         setupSaveButton()
     }
@@ -40,13 +39,17 @@ class AddMedicationActivity : AppCompatActivity() {
         val frequency = binding.etMedicationFrequency.text.toString().trim()
 
         if (name.isNotEmpty() && dosage.isNotEmpty() && frequency.isNotEmpty()) {
-            val resultIntent = Intent().apply {
-                putExtra("NEW_MEDICATION_NAME", name)
-                putExtra("NEW_MEDICATION_DOSAGE", dosage)
-                putExtra("NEW_MEDICATION_FREQUENCY", frequency)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val newMedication = Medication(
+                    name = name,
+                    dosage = dosage,
+                    frequency = frequency
+                )
+                medicationDatabase.medicationDao().insert(newMedication)
+
+                setResult(Activity.RESULT_OK)
+                finish()
             }
-            setResult(Activity.RESULT_OK, resultIntent)
-            finish()
         } else {
             showError("Por favor, complete todos los campos")
         }
