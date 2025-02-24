@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nombre del Medicamento"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:ellipsize="end"
             android:maxLines="1" />
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Dosis: 1 pastilla"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:layout_marginTop="4dp" />
 
         <!-- Frecuencia del medicamento -->
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Frecuencia: Cada 8 horas"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:layout_marginTop="4dp"/>
 
 
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tomar"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="180dp"
                 style="?android:attr/buttonBarButtonStyle"/>
 
             <!-- Botón para editar medicamento -->
