@@ -29,6 +29,18 @@
         android:importantForAccessibility="yes"
         android:inputType="text" />
 
+    <Spinner
+        android:id="@+id/spinner_dosage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Selecciona la cantidad" />
+
+    <Spinner
+        android:id="@+id/spinner_administration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/selecciona_el_tipo" />
+
     <EditText
         android:id="@+id/etMedicationFrequency"
         android:layout_width="match_parent"
@@ -38,13 +50,60 @@
         android:importantForAccessibility="yes"
         android:inputType="text" />
 
+    <Switch
+        android:id="@+id/etMedicationBreakfast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="DESAYUNO"
+        android:textSize="22sp" />
+
+    <Switch
+        android:id="@+id/etMedicationMidMonning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="MEDIA MAÑANA"
+        android:textSize="22sp" />
+
+    <Switch
+        android:id="@+id/etMedicationLunch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="COMIDA"
+        android:textSize="22sp" />
+
+    <Switch
+        android:id="@+id/etMedicationSnacking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="MERIENDA"
+        android:textSize="22sp" />
+
+    <Switch
+        android:id="@+id/etMedicationDinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="CENA"
+        android:textSize="22sp" />
+
+
     <Button
         android:id="@+id/btnSaveMedication"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Guardar Medicamento"
-        android:textAllCaps="false" />
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="GUARDAR MEDICAMENTO"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
+
+
+
 
     <!-- Botón para guardar el medicamento -->
 

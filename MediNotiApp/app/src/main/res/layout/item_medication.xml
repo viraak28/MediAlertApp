@@ -25,15 +25,23 @@
             android:ellipsize="end"
             android:maxLines="1" />
 
-        <!-- Dosis del medicamento -->
+      <!-- Dosis del medicamento  -->
         <TextView
             android:id="@+id/tvMedicationDosage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dosis: 1 pastilla"
+            android:text="Dosis: 500 mg"
             android:textSize="18sp"
             android:layout_marginTop="4dp" />
-
+         <!-- Tipo de toma
+        <TextView
+            android:id="@+id/tvDosageOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cantidad: 1 pastilla"
+            android:textSize="18sp"
+            android:layout_marginTop="4dp" />
+        -->
         <!-- Frecuencia del medicamento -->
         <TextView
             android:id="@+id/tvMedicationFrequency"
@@ -42,6 +50,7 @@
             android:text="Frecuencia: Cada 8 horas"
             android:textSize="18sp"
             android:layout_marginTop="4dp"/>
+
 
 
         <!-- Botones de acción -->

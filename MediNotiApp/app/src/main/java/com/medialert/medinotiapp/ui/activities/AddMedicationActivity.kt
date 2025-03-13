@@ -1,7 +1,6 @@
 package com.medialert.medinotiapp.ui.activities
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +10,8 @@ import com.medialert.medinotiapp.databinding.ActivityAddMedicationBinding
 import com.medialert.medinotiapp.models.Medication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.widget.ArrayAdapter
+import com.medialert.medinotiapp.R
 
 class AddMedicationActivity : AppCompatActivity() {
 
@@ -24,7 +25,30 @@ class AddMedicationActivity : AppCompatActivity() {
 
         medicationDatabase = MedicationDatabase.getDatabase(this)
 
+        // Configurar los Spinners
+        setupSpinners()
+
         setupSaveButton()
+    }
+
+    private fun setupSpinners() {
+        // Configurar el Spinner para la cantidad de dosis
+        val dosageAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.dosage_options,
+            android.R.layout.simple_spinner_item
+        )
+        dosageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerDosage.adapter = dosageAdapter
+
+        // Configurar el Spinner para el tipo de administración
+        val administrationAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.administration_options,
+            android.R.layout.simple_spinner_item
+        )
+        administrationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerAdministration.adapter = administrationAdapter
     }
 
     private fun setupSaveButton() {
@@ -36,14 +60,30 @@ class AddMedicationActivity : AppCompatActivity() {
     private fun saveMedication() {
         val name = binding.etMedicationName.text.toString().trim()
         val dosage = binding.etMedicationDosage.text.toString().trim()
+        val dosageQuantity = binding.spinnerDosage.selectedItem.toString()
+        val administrationType = binding.spinnerAdministration.selectedItem.toString()
         val frequency = binding.etMedicationFrequency.text.toString().trim()
+
+        // Checkboxes
+        val breakfast = binding.etMedicationBreakfast.isChecked
+        val midMorning = binding.etMedicationMidMonning.isChecked
+        val lunch = binding.etMedicationLunch.isChecked
+        val snacking = binding.etMedicationSnacking.isChecked
+        val dinner = binding.etMedicationDinner.isChecked
 
         if (name.isNotEmpty() && dosage.isNotEmpty() && frequency.isNotEmpty()) {
             lifecycleScope.launch(Dispatchers.IO) {
                 val newMedication = Medication(
                     name = name,
-                    dosage = dosage,
-                    frequency = frequency
+                    dosage = "$dosageQuantity $dosage",
+                    dosageQuantity = dosageQuantity,
+                    administrationType = administrationType,
+                    frequency = frequency,
+                    breakfast = breakfast,
+                    midMorning = midMorning,
+                    lunch = lunch,
+                    snacking = snacking,
+                    dinner = dinner
                 )
                 medicationDatabase.medicationDao().insert(newMedication)
 

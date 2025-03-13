@@ -3,4 +3,17 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="selecciona_el_tipo">Selecciona el tipo</string>
+    <string-array name="administration_options">
+        <item>Comprimido</item>
+        <item>En sobre</item>
+        <item>Inyección</item>
+        <item>Líquido</item>
+    </string-array>
+    <string-array name="dosage_options">
+        <item>1</item>
+        <item>½</item>
+        <item>¼</item>
+        <item>2</item>
+    </string-array>
 </resources>
