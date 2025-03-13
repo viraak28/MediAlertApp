@@ -75,7 +75,7 @@ class AddMedicationActivity : AppCompatActivity() {
             lifecycleScope.launch(Dispatchers.IO) {
                 val newMedication = Medication(
                     name = name,
-                    dosage = "$dosageQuantity $dosage",
+                    dosage = dosage,
                     dosageQuantity = dosageQuantity,
                     administrationType = administrationType,
                     frequency = frequency,
