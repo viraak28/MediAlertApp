@@ -30,26 +30,28 @@
             android:id="@+id/tvMedicationDosage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="Dosis: 500 mg"
             android:textSize="18sp"
-            android:layout_marginTop="4dp" />
-         <!-- Tipo de toma
-        <TextView
-            android:id="@+id/tvDosageOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cantidad: 1 pastilla"
-            android:textSize="18sp"
-            android:layout_marginTop="4dp" />
-        -->
-        <!-- Frecuencia del medicamento -->
+            android:visibility="invisible" />
+        <!--Tipo de toma -->
+       <TextView
+           android:id="@+id/tvDosageOptions"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text=" Cantidad: 1 comprimido"
+           android:textSize="18sp"
+           android:layout_marginTop="4dp" />
+
+       <!-- Frecuencia del medicamento -->
         <TextView
             android:id="@+id/tvMedicationFrequency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="Frecuencia: Cada 8 horas"
             android:textSize="18sp"
-            android:layout_marginTop="4dp"/>
+            android:visibility="invisible" />
 
 
 
@@ -58,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end"
+            android:gravity="start"
             android:layout_marginTop="8dp">
 
             <!-- Botón para registrar toma -->
@@ -67,16 +69,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tomar"
-                android:layout_marginEnd="180dp"
                 style="?android:attr/buttonBarButtonStyle"/>
 
             <!-- Botón para editar medicamento -->
             <Button
                 android:id="@+id/btnEditMedication"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Editar"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:layout_marginStart="150dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="Editar" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

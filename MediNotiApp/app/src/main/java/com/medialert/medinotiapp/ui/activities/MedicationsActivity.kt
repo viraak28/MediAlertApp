@@ -69,6 +69,7 @@ class MedicationsActivity : AppCompatActivity() {
             putExtra("MEDICATION_DOSAGE", medication.dosage)
             putExtra("MEDICATION_FREQUENCY", medication.frequency)
             putExtra("MEDICATION_AdministrationType", medication.administrationType)
+            putExtra("MEDICATION_dosageQuantity", medication.dosageQuantity)
         }
         startActivity(intent)
     }

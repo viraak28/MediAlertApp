@@ -18,6 +18,7 @@ class MedicationAdapter(
             binding.tvMedicationName.text = medication.name
             binding.tvMedicationDosage.text = "Dosis: ${medication.dosage}"
             binding.tvMedicationFrequency.text = "Frecuencia: ${medication.frequency}"
+            binding.tvDosageOptions.text = "Cantidad:: ${medication.dosageQuantity} ${medication.administrationType}"
             binding.btnTakeMedication.setOnClickListener { onTakeClick(medication) }
             binding.btnEditMedication.setOnClickListener { onEditClick(medication) }
             binding.root.setOnClickListener { onItemClick(medication) }
