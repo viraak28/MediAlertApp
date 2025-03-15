@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnDinnerMeds.setOnClickListener {
             // TODO: Implement logic for showing dinner medications
         }
+
     }
 
     private fun setupNavigationButtons() {

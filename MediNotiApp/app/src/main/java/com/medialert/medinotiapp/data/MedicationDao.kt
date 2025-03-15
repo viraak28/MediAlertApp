@@ -22,6 +22,7 @@ interface MedicationDao {
     @Delete
     suspend fun delete(medication: Medication)
 
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTake(take: Take)
 

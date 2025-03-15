@@ -20,67 +20,88 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nombre del Medicamento"
-            android:textSize="22sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:ellipsize="end"
             android:maxLines="1" />
 
       <!-- Dosis del medicamento  -->
-        <TextView
-            android:id="@+id/tvMedicationDosage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Dosis: 500 mg"
-            android:textSize="18sp"
-            android:visibility="invisible" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvMedicationDosage"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:text="Dosis: 500 mg"-->
+<!--            android:textSize="18sp"-->
+<!--            android:visibility="invisible" />-->
         <!--Tipo de toma -->
        <TextView
            android:id="@+id/tvDosageOptions"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:text=" Cantidad: 1 comprimido"
-           android:textSize="18sp"
+           android:textSize="23sp"
            android:layout_marginTop="4dp" />
-
-       <!-- Frecuencia del medicamento -->
         <TextView
-            android:id="@+id/tvMedicationFrequency"
+            android:id="@+id/tvMealsOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Frecuencia: Cada 8 horas"
-            android:textSize="18sp"
-            android:visibility="invisible" />
+            android:text="Desayuno,Comida,cena"
+            android:textSize="23sp"
+            android:layout_marginTop="4dp" />
+
+       <!-- Frecuencia del medicamento -->
+<!--        <TextView-->
+<!--            android:id="@+id/tvMedicationFrequency"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:text="Frecuencia: Cada 8 horas"-->
+<!--            android:textSize="18sp"-->
+<!--            android:visibility="invisible" />-->
 
 
 
         <!-- Botones de acción -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_height="54dp"
+            android:layout_marginTop="20dp"
             android:gravity="start"
-            android:layout_marginTop="8dp">
+            android:orientation="horizontal">
 
             <!-- Botón para registrar toma -->
             <Button
                 android:id="@+id/btnTakeMedication"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tomar"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:textSize="20sp" />
+
 
             <!-- Botón para editar medicamento -->
+            <Button
+                android:id="@+id/btnDelete"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="Eliminar"
+                android:textSize="20sp" />
+
             <Button
                 android:id="@+id/btnEditMedication"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="150dp"
-                android:paddingStart="8dp"
+                             android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:text="Editar" />
+                android:text="Editar"
+                android:textSize="20sp" />
+
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -1,6 +1,7 @@
 package com.medialert.medinotiapp.ui.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -48,6 +49,9 @@ class MedicationsActivity : AppCompatActivity() {
             },
             onItemClick = { medication ->
                 showMedicationDetails(medication)
+            },
+            onDeleteClick = { medication ->
+                deleteMedication(medication)
             }
         )
         binding.recyclerViewMedications.apply {
@@ -102,6 +106,26 @@ class MedicationsActivity : AppCompatActivity() {
             Snackbar.make(binding.root, "Medicamento ${medication.name} tomado", Snackbar.LENGTH_SHORT).show()
         }
     }
+
+    private fun deleteMedication(medication: Medication) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirmación")
+        builder.setMessage("¿Estás seguro de continuar?")
+        builder.setPositiveButton("Sí") { _, _ ->
+            // Acción si se confirma
+            //medicationDatabase = MedicationDatabase.getDatabase(this)
+            lifecycleScope.launch(Dispatchers.IO) {
+                medicationDatabase.medicationDao().delete(medication)
+            }
+            println("Se ha confirmado")
+        }
+        builder.setNegativeButton("No") { _, _ ->
+            // Acción si se cancela
+            println("Se ha cancelado")
+        }
+        builder.show()
+    }
+
 
     private fun loadMedications() {
         lifecycleScope.launch {

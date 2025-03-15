@@ -5,10 +5,10 @@
     <string name="title_notifications">Notifications</string>
     <string name="selecciona_el_tipo">Selecciona el tipo</string>
     <string-array name="administration_options">
-        <item>Comprimido</item>
-        <item>En sobre</item>
-        <item>Inyección</item>
-        <item>Líquido</item>
+        <item>COMPRIMIDO</item>
+        <item>SOBRE</item>
+        <item>INYECCION</item>
+        <item>LIQUIDO</item>
     </string-array>
     <string-array name="dosage_options">
         <item>1</item>
