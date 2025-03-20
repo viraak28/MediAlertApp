@@ -54,11 +54,15 @@ class MedicationDetailActivity : AppCompatActivity() {
         val medicationFrequency = intent.getStringExtra("MEDICATION_FREQUENCY") ?: ""
         val medicationAdministrationType = intent.getStringExtra("MEDICATION_AdministrationType") ?: ""
         val medicationDosageQuantity = intent.getStringExtra("MEDICATION_dosageQuantity") ?: ""
+        val medicationFreqTake = intent.getStringExtra("MEDICATION_frecuencyOfTakeMedicine")?: ""
+        val medicationFreqTakeExact = intent.getStringExtra("MEDICATION_frecuencyOfTakeMedicineExactDay")?: ""
         // Mostrar datos en las vistas
         binding.tvMedicationName.text = "Nombre: $medicationName"
         binding.tvMedicationDosage.text = "Dosis: $medicationDosage"
         binding.tvMedicationFrequency.text = "Frecuencia: $medicationFrequency"
         binding.tvMedicationDosageQuantity.text = "Cantidad : $medicationDosageQuantity $medicationAdministrationType"
+        binding.tvMedicationFreqtake.text ="Frecuencia Toma : $medicationFreqTake $medicationFreqTakeExact"
+
         // Configurar RecyclerView y mostrar las tomas
         setupRecyclerView()
         loadTakes()

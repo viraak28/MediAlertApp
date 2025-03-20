@@ -74,6 +74,8 @@ class MedicationsActivity : AppCompatActivity() {
             putExtra("MEDICATION_FREQUENCY", medication.frequency)
             putExtra("MEDICATION_AdministrationType", medication.administrationType)
             putExtra("MEDICATION_dosageQuantity", medication.dosageQuantity)
+            putExtra("MEDICATION_frecuencyOfTakeMedicine", medication.frecuencyOfTakeMedicine)
+            putExtra("MEDICATION_frecuencyOfTakeMedicineExactDay", medication.frecuencyOfTakeMedicineExactDay)
         }
         startActivity(intent)
     }
@@ -96,6 +98,9 @@ class MedicationsActivity : AppCompatActivity() {
             putExtra("MEDICATION_snacking", medication.snacking)
             putExtra("MEDICATION_dinner", medication.dinner)
             putExtra("MEDICATION_administrationType", medication.administrationType)
+            putExtra("MEDICATION_frecuencyOfTakeMedicine", medication.frecuencyOfTakeMedicine)
+            putExtra("MEDICATION_frecuencyOfTakeMedicineExactDay", medication.frecuencyOfTakeMedicineExactDay)
+
         }
         startActivityForResult(intent, EDIT_MEDICATION_REQUEST_CODE)
     }
@@ -154,9 +159,14 @@ class MedicationsActivity : AppCompatActivity() {
             val newMedicationSnacking = data?.getBooleanExtra("NEW_MEDICATION_snacking", false)
             val newMedicationDinner = data?.getBooleanExtra("NEW_MEDICATION_dinner", false)
 
+            val newMedicationfrecuencyOfTakeMedicine = data?.getStringExtra("NEW_MEDICATION_frecuencyOfTakeMedicine")
+            val newMedicationfrecuencyOfTakeMedicineExactDay = data?.getStringExtra("NEW_MEDICATION_frecuencyOfTakeMedicineExactDay")
+
+
             if (newMedicationName != null && newMedicationFrequency != null &&
                 newMedicationDosageQuantity != null && newMedicationAdministrationType != null &&
-                newMedicationDosage != null) {
+                newMedicationDosage != null && newMedicationfrecuencyOfTakeMedicine!= null
+                && newMedicationfrecuencyOfTakeMedicineExactDay!= null) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     val newMedication = Medication(
                         name = newMedicationName,
@@ -168,7 +178,9 @@ class MedicationsActivity : AppCompatActivity() {
                         midMorning = newMedicationMidMorning  == true,
                         lunch = newMedicationLunch == true,
                         snacking = newMedicationSnacking == true,
-                        dinner = newMedicationDinner == true
+                        dinner = newMedicationDinner == true,
+                        frecuencyOfTakeMedicine = newMedicationfrecuencyOfTakeMedicine,
+                        frecuencyOfTakeMedicineExactDay = newMedicationfrecuencyOfTakeMedicineExactDay
                     )
                     medicationDatabase.medicationDao().insert(newMedication)
                 }
@@ -189,9 +201,14 @@ class MedicationsActivity : AppCompatActivity() {
             val editedMedicationSnacking = data?.getBooleanExtra("EDITED_MEDICATION_snacking", false)
             val editedMedicationDinner = data?.getBooleanExtra("EDITED_MEDICATION_dinner", false)
 
+            val editedMedicationfrecuencyOfTakeMedicine = data?.getStringExtra("NEW_MEDICATION_frecuencyOfTakeMedicine")
+            val editedMedicationfrecuencyOfTakeMedicineExactDay = data?.getStringExtra("NEW_MEDICATION_frecuencyOfTakeMedicineExactDay")
+
+
             if (medicationId != -1 && editedMedicationName != null && editedMedicationFrequency != null &&
                 editedMedicationDosageQuantity != null && editedMedicationAdministrationType != null &&
-                editedMedicationDosage != null) {
+                editedMedicationDosage != null && editedMedicationfrecuencyOfTakeMedicine!= null
+                && editedMedicationfrecuencyOfTakeMedicineExactDay!= null) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     val updatedMedication = Medication(
                         id = medicationId,
@@ -204,11 +221,39 @@ class MedicationsActivity : AppCompatActivity() {
                         midMorning = editedMedicationMidMorning == true,
                         lunch = editedMedicationLunch == true,
                         snacking = editedMedicationSnacking == true,
-                        dinner = editedMedicationDinner == true
+                        dinner = editedMedicationDinner == true,
+                        frecuencyOfTakeMedicine = editedMedicationfrecuencyOfTakeMedicine,
+                        frecuencyOfTakeMedicineExactDay = editedMedicationfrecuencyOfTakeMedicineExactDay
                     )
+
                     medicationDatabase.medicationDao().update(updatedMedication)
                 }
-            } else {
+            }
+            else if (medicationId != -1 && editedMedicationName != null && editedMedicationFrequency != null &&
+                editedMedicationDosageQuantity != null && editedMedicationAdministrationType != null &&
+                editedMedicationDosage != null && editedMedicationfrecuencyOfTakeMedicine!= null
+               ) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val updatedMedication = Medication(
+                        id = medicationId,
+                        name = editedMedicationName,
+                        dosage = editedMedicationDosage,
+                        frequency = editedMedicationFrequency,
+                        dosageQuantity = editedMedicationDosageQuantity,
+                        administrationType = editedMedicationAdministrationType,
+                        breakfast = editedMedicationBreakfast == true,
+                        midMorning = editedMedicationMidMorning == true,
+                        lunch = editedMedicationLunch == true,
+                        snacking = editedMedicationSnacking == true,
+                        dinner = editedMedicationDinner == true,
+                        frecuencyOfTakeMedicine = editedMedicationfrecuencyOfTakeMedicine,
+                        frecuencyOfTakeMedicineExactDay = ""
+                    )
+
+                    medicationDatabase.medicationDao().update(updatedMedication)
+                }
+            }
+            else {
                 // Maneja el caso en que los datos no están completos
                 showError("No se han recibido todos los datos necesarios para editar")
             }

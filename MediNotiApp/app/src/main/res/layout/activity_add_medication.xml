@@ -50,6 +50,19 @@
         android:importantForAccessibility="yes"
         android:inputType="text" />
 
+    <Spinner
+        android:id="@+id/spinner_frecuencyoftakemedicine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint= "selecciona_la fecuencia de toma" />
+
+    <Spinner
+        android:id="@+id/spinner_frecuencyoftakemedicineexactday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint= "selecciona_el dia"
+        android:visibility="gone" />
+
     <Switch
         android:id="@+id/etMedicationBreakfast"
         android:layout_width="match_parent"

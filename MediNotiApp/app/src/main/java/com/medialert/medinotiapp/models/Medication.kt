@@ -10,6 +10,8 @@ data class Medication(
     var dosage: String,
     var dosageQuantity: String,
     var administrationType: String,
+    var frecuencyOfTakeMedicine: String,
+    var frecuencyOfTakeMedicineExactDay: String,
     var frequency: String,
     var breakfast: Boolean,
     var midMorning: Boolean,

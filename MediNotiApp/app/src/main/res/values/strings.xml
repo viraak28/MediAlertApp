@@ -16,4 +16,54 @@
         <item>¼</item>
         <item>2</item>
     </string-array>
+
+    <string-array name="frecuencyoftakemedicine">
+    <item>Diaria</item>
+    <item>Semanal</item>
+    <item>Bisemanal    </item>
+    <item>Mensual</item>
+    </string-array>
+    <string-array name="emptyArray">
+        <item>""</item>
+    </string-array>
+
+    <string-array name="frecuencyofweek">
+        <item>Lunes</item>
+        <item>Martes</item>
+        <item>Miercoles</item>
+        <item>Jueves</item>
+        <item>Viernes</item>
+        <item>Sabado</item>
+        <item>Domingo</item>
+    </string-array>
+    <string-array name="frecuencyofmonth">
+    <item>Dia 1</item>
+    <item>Dia 2</item>
+    <item>Dia 3</item>
+    <item>Dia 4</item>
+    <item>Dia 5</item>
+    <item>Dia 6</item>
+    <item>Dia 7</item>
+    <item>Dia 8</item>
+    <item>Dia 9</item>
+    <item>Dia 10</item>
+    <item>Dia 11</item>
+    <item>Dia 12</item>
+    <item>Dia 13</item>
+    <item>Dia 14</item>
+    <item>Dia 15</item>
+    <item>Dia 16</item>
+    <item>Dia 17</item>
+    <item>Dia 18</item>
+    <item>Dia 19</item>
+    <item>Dia 20</item>
+    <item>Dia 21</item>
+    <item>Dia 22</item>
+    <item>Dia 23</item>
+    <item>Dia 24</item>
+    <item>Dia 25</item>
+    <item>Dia 26</item>
+    <item>Dia 27</item>
+    <item>Dia 28</item>
+</string-array>
 </resources>

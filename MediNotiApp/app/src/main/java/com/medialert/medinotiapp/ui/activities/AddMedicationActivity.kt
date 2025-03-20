@@ -2,6 +2,8 @@ package com.medialert.medinotiapp.ui.activities
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
@@ -49,6 +51,64 @@ class AddMedicationActivity : AppCompatActivity() {
         )
         administrationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerAdministration.adapter = administrationAdapter
+
+        val frecuencyoftakemedicineAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.frecuencyoftakemedicine,
+            android.R.layout.simple_spinner_item
+        )
+        administrationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerFrecuencyoftakemedicine.adapter = frecuencyoftakemedicineAdapter
+//vacio a la espera de la seleccion del spinner anterior
+        val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.emptyArray,
+            android.R.layout.simple_spinner_item)
+        frecuencyoftakemedicineexactdayadapter .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
+
+        // Agregar listener para cambiar el contenido y visibilidad del segundo Spinner
+        binding.spinnerFrecuencyoftakemedicine.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val text_Chose= parent?.getItemAtPosition(position).toString()
+                when (text_Chose) {
+                    "Bisemanal" -> {
+                        val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
+                            this@AddMedicationActivity,
+                            R.array.frecuencyofweek,
+                            android.R.layout.simple_spinner_item)
+                        frecuencyoftakemedicineexactdayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
+                        binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.VISIBLE
+                    }
+                    "Semanal" -> {
+                       val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
+                           this@AddMedicationActivity,
+                            R.array.frecuencyofweek,
+                            android.R.layout.simple_spinner_item)
+                        frecuencyoftakemedicineexactdayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
+                        binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.VISIBLE
+                    }
+                    "Mensual" -> {
+                        val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
+                            this@AddMedicationActivity,
+                            R.array.frecuencyofmonth,
+                            android.R.layout.simple_spinner_item)
+                        frecuencyoftakemedicineexactdayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
+                        binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // No se ha seleccionado nada
+            }
+        }
     }
 
     private fun setupSaveButton() {
@@ -63,6 +123,9 @@ class AddMedicationActivity : AppCompatActivity() {
         val dosageQuantity = binding.spinnerDosage.selectedItem.toString()
         val administrationType = binding.spinnerAdministration.selectedItem.toString()
         val frequency = binding.etMedicationFrequency.text.toString().trim()
+
+        val frecuencyOfTakeMedicine = binding.spinnerFrecuencyoftakemedicine.selectedItem.toString()
+        val frecuencyOfTakeMedicineExactDay = binding.spinnerFrecuencyoftakemedicineexactday.selectedItem.toString()
 
         // Checkboxes
         val breakfast = binding.etMedicationBreakfast.isChecked
@@ -79,6 +142,8 @@ class AddMedicationActivity : AppCompatActivity() {
                     dosageQuantity = dosageQuantity,
                     administrationType = administrationType,
                     frequency = frequency,
+                    frecuencyOfTakeMedicine = frecuencyOfTakeMedicine,
+                    frecuencyOfTakeMedicineExactDay = frecuencyOfTakeMedicineExactDay,
                     breakfast = breakfast,
                     midMorning = midMorning,
                     lunch = lunch,
