@@ -1,0 +1,55 @@
+package com.medialert.medinotiapp.ui.activities
+import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.medialert.medinotiapp.data.UserDatabase
+import com.medialert.medinotiapp.databinding.ActivityUserRegisterBinding
+import com.medialert.medinotiapp.models.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+class  RegisterUserActivity  : AppCompatActivity() {
+
+    private lateinit var binding: ActivityUserRegisterBinding
+    private lateinit var userDatabase: UserDatabase
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityUserRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        userDatabase = UserDatabase.getDatabase(this)
+
+        binding.btnRegistrar.setOnClickListener {
+            registrarUsuario()
+        }
+    }
+
+    private fun registrarUsuario() {
+        val nombre = binding.etNombre.text.toString().trim()
+        val apellido = binding.etApellido.text.toString().trim()
+        val correo = binding.etCorreo.text.toString().trim()
+        val contrasena = binding.etContrasena.text.toString().trim()
+        val confirmarContrasena = binding.etConfirmarContrasena.text.toString().trim()
+
+        if (nombre.isNotEmpty() && apellido.isNotEmpty() && correo.isNotEmpty() && contrasena.isNotEmpty() && confirmarContrasena.isNotEmpty()) {
+            if (contrasena == confirmarContrasena) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val usuario = User(nombre = nombre, apellido = apellido, correo = correo, contrasena = contrasena)
+                    userDatabase.userDao().insert(usuario)
+
+                    runOnUiThread {
+                        Toast.makeText(this@RegisterUserActivity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+

@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.medialert.medinotiapp.databinding.ActivityMainBinding
+import com.medialert.medinotiapp.ui.activities.LoginActivity
 import com.medialert.medinotiapp.ui.activities.MedicationsActivity
+import com.medialert.medinotiapp.ui.activities.RegisterUserActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,8 +39,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavigationButtons() {
-        binding.btnPastillero.setOnClickListener {
-            // TODO: Implement pill organizer functionality
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnMedications.setOnClickListener {

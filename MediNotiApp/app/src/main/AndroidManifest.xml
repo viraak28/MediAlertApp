@@ -28,8 +28,17 @@
             android:theme="@style/Theme.Medinotiapp.NoActionBar"
             android:exported="false" />
         <activity android:name=".ui.activities.MedicationDetailActivity" />
+        <activity android:name=".ui.activities.LoginActivity"
+            android:theme="@style/Theme.Medinotiapp.NoActionBar"/>
+        <activity android:name=".ui.activities.PerfilActivity"
+            android:theme="@style/Theme.Medinotiapp.NoActionBar"/>
+        <activity android:name=".ui.activities.CambiarContrasenaActivity"
+            android:theme="@style/Theme.Medinotiapp.NoActionBar"/>
         <activity android:name=".ui.activities.MedicationsActivity"
             android:theme="@style/Theme.Medinotiapp.NoActionBar"/>
+        <activity android:name=".ui.activities.RegisterUserActivity"
+            android:theme="@style/Theme.Medinotiapp.NoActionBar"/>
+
         <activity android:name=".ui.activities.EditMedicationActivity"
             android:exported="false"/>
     </application>
