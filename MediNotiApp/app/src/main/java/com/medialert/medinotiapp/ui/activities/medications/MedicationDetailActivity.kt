@@ -1,4 +1,4 @@
-package com.medialert.medinotiapp.ui.activities
+package com.medialert.medinotiapp.ui.activities.medications
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -13,7 +13,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.medialert.medinotiapp.adapters.TakeAdapter

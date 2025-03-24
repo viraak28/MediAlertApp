@@ -1,12 +1,15 @@
-package com.medialert.medinotiapp.ui.activities
+package com.medialert.medinotiapp.ui.activities.users
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.medialert.medinotiapp.MainActivity
 import com.medialert.medinotiapp.data.UserDatabase
 import com.medialert.medinotiapp.databinding.ActivityLoginBinding
 import com.medialert.medinotiapp.models.User
+import com.medialert.medinotiapp.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,12 +25,22 @@ class LoginActivity : AppCompatActivity() {
 
         userDatabase = UserDatabase.getDatabase(this)
 
+        val correo = intent.getStringExtra("CORREO")
+        if (correo != null) {
+            binding.etCorreo.setText(correo)
+        }
+
         binding.btnIniciarSesion.setOnClickListener {
             iniciarSesion()
         }
 
         binding.btnCambiarContrasena.setOnClickListener {
             cambiarContrasena()
+        }
+
+        binding.btnRegistrar.setOnClickListener {
+            val intent = Intent(this, RegisterUserActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -41,8 +54,11 @@ class LoginActivity : AppCompatActivity() {
                 if (usuario != null && usuario.contrasena == contrasena) {
                     runOnUiThread {
                         Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                        // Iniciar sesión y mostrar el perfil del usuario
-                        mostrarPerfilUsuario(usuario)
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        val sessionManager = SessionManager(this@LoginActivity)
+                        sessionManager.saveSession(usuario.id)
+                        startActivity(intent)
+                        finish()
                     }
                 } else {
                     runOnUiThread {
@@ -57,12 +73,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun cambiarContrasena() {
         val intent = Intent(this, CambiarContrasenaActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun mostrarPerfilUsuario(usuario: User) {
-        val intent = Intent(this, PerfilActivity::class.java)
-        intent.putExtra("USUARIO_ID", usuario.id)
         startActivity(intent)
     }
 }

@@ -1,4 +1,4 @@
-package com.medialert.medinotiapp.ui.activities
+package com.medialert.medinotiapp.ui.activities.medications
 
 import android.app.Activity
 import android.os.Bundle

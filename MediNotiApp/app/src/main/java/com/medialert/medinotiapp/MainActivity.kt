@@ -2,46 +2,40 @@ package com.medialert.medinotiapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.medialert.medinotiapp.databinding.ActivityMainBinding
-import com.medialert.medinotiapp.ui.activities.LoginActivity
-import com.medialert.medinotiapp.ui.activities.MedicationsActivity
-import com.medialert.medinotiapp.ui.activities.RegisterUserActivity
+import com.medialert.medinotiapp.ui.activities.SplashScreenActivity
+import com.medialert.medinotiapp.ui.activities.medications.MedicationsActivity
+import com.medialert.medinotiapp.ui.activities.users.PerfilActivity
+import com.medialert.medinotiapp.utils.SessionManager
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    //Sobrescribir la funcion del padre
+    private lateinit var sessionManager: SessionManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //lazar el layout definido en activity_main
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupMedicationButtons()
+        sessionManager = SessionManager(this)
+
         setupNavigationButtons()
     }
 
-    private fun setupMedicationButtons() {
-        //On funcinan con una accion
-        binding.btnBreakfastMeds.setOnClickListener {
-            // TODO: Implement logic for showing breakfast medications
-        }
-
-        binding.btnLunchMeds.setOnClickListener {
-            // TODO: Implement logic for showing lunch medications
-        }
-
-        binding.btnDinnerMeds.setOnClickListener {
-            // TODO: Implement logic for showing dinner medications
-        }
-
-    }
-
     private fun setupNavigationButtons() {
-        binding.btnRegister.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+        binding.btnPerfil.setOnClickListener {
+            val userId = sessionManager.getUserId()
+            if (userId != -1) {
+                val intent = Intent(this, PerfilActivity::class.java)
+                intent.putExtra("USUARIO_ID", userId)
+                startActivity(intent)
+            } else {
+                // Maneja el caso en que no hay sesión activa
+                Toast.makeText(this, "No hay sesión activa", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnMedications.setOnClickListener {
@@ -51,6 +45,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnReminders.setOnClickListener {
             // TODO: Implement reminders functionality
+        }
+
+        binding.btnLogout.setOnClickListener {
+            sessionManager.clearSession()
+            val intent = Intent(this, SplashScreenActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }

@@ -1,4 +1,6 @@
-package com.medialert.medinotiapp.ui.activities
+package com.medialert.medinotiapp.ui.activities.users
+
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -6,10 +8,11 @@ import androidx.lifecycle.lifecycleScope
 import com.medialert.medinotiapp.data.UserDatabase
 import com.medialert.medinotiapp.databinding.ActivityUserRegisterBinding
 import com.medialert.medinotiapp.models.User
+import com.medialert.medinotiapp.ui.activities.SplashScreenActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class  RegisterUserActivity  : AppCompatActivity() {
+class RegisterUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserRegisterBinding
     private lateinit var userDatabase: UserDatabase
@@ -41,6 +44,8 @@ class  RegisterUserActivity  : AppCompatActivity() {
 
                     runOnUiThread {
                         Toast.makeText(this@RegisterUserActivity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@RegisterUserActivity, SplashScreenActivity::class.java)
+                        startActivity(intent)
                         finish()
                     }
                 }
@@ -52,4 +57,3 @@ class  RegisterUserActivity  : AppCompatActivity() {
         }
     }
 }
-

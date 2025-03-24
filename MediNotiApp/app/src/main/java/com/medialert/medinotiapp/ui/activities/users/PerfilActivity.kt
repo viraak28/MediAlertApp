@@ -1,10 +1,9 @@
-package com.medialert.medinotiapp.ui.activities
+package com.medialert.medinotiapp.ui.activities.users
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.medialert.medinotiapp.data.UserDatabase
 import com.medialert.medinotiapp.databinding.ActivityPerfilBinding
-import com.medialert.medinotiapp.models.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
