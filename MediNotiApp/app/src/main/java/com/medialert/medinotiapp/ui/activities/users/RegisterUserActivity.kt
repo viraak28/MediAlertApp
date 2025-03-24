@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.medialert.medinotiapp.data.UserDatabase
+import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityUserRegisterBinding
 import com.medialert.medinotiapp.models.User
 import com.medialert.medinotiapp.ui.activities.SplashScreenActivity
@@ -15,14 +15,14 @@ import kotlinx.coroutines.launch
 class RegisterUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserRegisterBinding
-    private lateinit var userDatabase: UserDatabase
+    private lateinit var medinotiappDatabase: MedinotiappDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userDatabase = UserDatabase.getDatabase(this)
+        medinotiappDatabase = MedinotiappDatabase.getDatabase(this)
 
         binding.btnRegistrar.setOnClickListener {
             registrarUsuario()
@@ -40,7 +40,7 @@ class RegisterUserActivity : AppCompatActivity() {
             if (contrasena == confirmarContrasena) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     val usuario = User(nombre = nombre, apellido = apellido, correo = correo, contrasena = contrasena)
-                    userDatabase.userDao().insert(usuario)
+                    medinotiappDatabase.userDao().insert(usuario)
 
                     runOnUiThread {
                         Toast.makeText(this@RegisterUserActivity, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()

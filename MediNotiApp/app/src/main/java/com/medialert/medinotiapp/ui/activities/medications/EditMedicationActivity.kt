@@ -10,8 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.medialert.medinotiapp.R
-import com.medialert.medinotiapp.data.MedicationDatabase
+import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityAddMedicationBinding
+import com.medialert.medinotiapp.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -19,14 +20,16 @@ class EditMedicationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddMedicationBinding
     private var medicationId: Int = -1
-    private lateinit var medicationDatabase: MedicationDatabase
+    private lateinit var medicationDatabase: MedinotiappDatabase
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMedicationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        medicationDatabase = MedicationDatabase.getDatabase(this)
+        medicationDatabase = MedinotiappDatabase.getDatabase(this)
+        sessionManager = SessionManager(this)
 
         // Obtener los datos del medicamento a editar
         medicationId = intent.getIntExtra("MEDICATION_ID", -1)
@@ -199,7 +202,7 @@ class EditMedicationActivity : AppCompatActivity() {
                 // Actualizar el medicamento en la base de datos
                 val medicationDao = medicationDatabase.medicationDao()
                 val medication = medicationDao.getMedicationById(medicationId)
-                if (medication != null) {
+                if (medication != null && medication.userId == sessionManager.getUserId()) {
                     medication.name = name
                     medication.dosage = dosage
                     medication.administrationType = administrationType

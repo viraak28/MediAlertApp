@@ -3,7 +3,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.medialert.medinotiapp.data.UserDatabase
+import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityCambiarContrasenaBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,14 +11,14 @@ import kotlinx.coroutines.launch
 class CambiarContrasenaActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCambiarContrasenaBinding
-    private lateinit var userDatabase: UserDatabase
+    private lateinit var medinotiappDatabase: MedinotiappDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCambiarContrasenaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userDatabase = UserDatabase.getDatabase(this)
+        medinotiappDatabase = MedinotiappDatabase.getDatabase(this)
 
         binding.btnCambiarContrasena.setOnClickListener {
             cambiarContrasena()
@@ -34,10 +34,10 @@ class CambiarContrasenaActivity : AppCompatActivity() {
         if (correo.isNotEmpty() && contrasenaActual.isNotEmpty() && nuevaContrasena.isNotEmpty() && confirmarNuevaContrasena.isNotEmpty()) {
             if (nuevaContrasena == confirmarNuevaContrasena) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val usuario = userDatabase.userDao().getUserByCorreo(correo)
+                    val usuario = medinotiappDatabase.userDao().getUserByCorreo(correo)
                     if (usuario != null && usuario.contrasena == contrasenaActual) {
                         usuario.contrasena = nuevaContrasena
-                        userDatabase.userDao().update(usuario)
+                        medinotiappDatabase.userDao().update(usuario)
 
                         runOnUiThread {
                             Toast.makeText(this@CambiarContrasenaActivity, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT).show()

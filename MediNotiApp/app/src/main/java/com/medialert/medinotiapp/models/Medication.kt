@@ -2,8 +2,21 @@ package com.medialert.medinotiapp.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.ForeignKey
+import androidx.room.Index
 
-@Entity(tableName = "medications")
+@Entity(tableName = "medications",
+    foreignKeys = [
+        ForeignKey(
+            entity = User::class,
+            parentColumns = ["id"],
+            childColumns = ["user_id"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("user_id")]
+)
 data class Medication(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     var name: String,
@@ -17,5 +30,6 @@ data class Medication(
     var midMorning: Boolean,
     var lunch: Boolean,
     var snacking: Boolean,
-    var dinner: Boolean
+    var dinner: Boolean,
+    @ColumnInfo(name = "user_id") val userId: Int
 )

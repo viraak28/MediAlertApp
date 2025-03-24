@@ -6,9 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.medialert.medinotiapp.MainActivity
-import com.medialert.medinotiapp.data.UserDatabase
+import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityLoginBinding
-import com.medialert.medinotiapp.models.User
 import com.medialert.medinotiapp.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,14 +15,14 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var userDatabase: UserDatabase
+    private lateinit var medinotiappDatabase: MedinotiappDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userDatabase = UserDatabase.getDatabase(this)
+        medinotiappDatabase = MedinotiappDatabase.getDatabase(this)
 
         val correo = intent.getStringExtra("CORREO")
         if (correo != null) {
@@ -50,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (correo.isNotEmpty() && contrasena.isNotEmpty()) {
             lifecycleScope.launch(Dispatchers.IO) {
-                val usuario = userDatabase.userDao().getUserByCorreo(correo)
+                val usuario = medinotiappDatabase.userDao().getUserByCorreo(correo)
                 if (usuario != null && usuario.contrasena == contrasena) {
                     runOnUiThread {
                         Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()

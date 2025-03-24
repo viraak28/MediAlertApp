@@ -13,6 +13,9 @@ interface MedicationDao {
     @Query("SELECT * FROM medications WHERE id = :medicationId")
     suspend fun getMedicationById(medicationId: Int): Medication
 
+    @Query("SELECT * FROM medications WHERE user_id = :userId")
+    fun getMedicationsByUser(userId: Int): Flow<List<Medication>>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(medication: Medication)
 

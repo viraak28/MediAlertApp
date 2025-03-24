@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.medialert.medinotiapp.MainActivity
 import com.medialert.medinotiapp.R
-import com.medialert.medinotiapp.data.UserDatabase
+import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.ui.activities.users.LoginActivity
 import com.medialert.medinotiapp.ui.activities.users.RegisterUserActivity
 import com.medialert.medinotiapp.ui.activities.users.UserSelectionActivity
@@ -17,14 +17,14 @@ import kotlinx.coroutines.launch
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
-    private lateinit var userDatabase: UserDatabase
+    private lateinit var medinotiappDatabase: MedinotiappDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
         sessionManager = SessionManager(this)
-        userDatabase = UserDatabase.getDatabase(this)
+        medinotiappDatabase = MedinotiappDatabase.getDatabase(this)
 
         if (sessionManager.isUserLoggedIn()) {
             // Acceder directamente a los datos de la sesión
@@ -33,7 +33,7 @@ class SplashScreenActivity : AppCompatActivity() {
             finish()
         } else {
             lifecycleScope.launch(Dispatchers.IO) {
-                userDatabase.userDao().getAll().collect { users ->
+                medinotiappDatabase.userDao().getAll().collect { users ->
                     if (users.isEmpty()) {
                         // La lista está vacía
                         runOnUiThread {

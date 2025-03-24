@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.medialert.medinotiapp.adapters.TakeAdapter
-import com.medialert.medinotiapp.data.MedicationDatabase
+import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityMedicationDetailBinding
 import com.medialert.medinotiapp.notifications.ReminderWorker
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 class MedicationDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMedicationDetailBinding
-    private lateinit var medicationDatabase: MedicationDatabase
+    private lateinit var medicationDatabase: MedinotiappDatabase
     private var medicationId: Int = -1
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
@@ -37,7 +37,7 @@ class MedicationDetailActivity : AppCompatActivity() {
         binding = ActivityMedicationDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        medicationDatabase = MedicationDatabase.getDatabase(this)
+        medicationDatabase = MedinotiappDatabase.getDatabase(this)
 
         // Apply window insets to handle status bar
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->

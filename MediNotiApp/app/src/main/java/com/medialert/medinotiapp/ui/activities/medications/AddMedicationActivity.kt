@@ -7,25 +7,30 @@ import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.medialert.medinotiapp.data.MedicationDatabase
+import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityAddMedicationBinding
 import com.medialert.medinotiapp.models.Medication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.medialert.medinotiapp.R
+import com.medialert.medinotiapp.utils.SessionManager
+import kotlinx.coroutines.withContext
 
 class AddMedicationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddMedicationBinding
-    private lateinit var medicationDatabase: MedicationDatabase
+    private lateinit var medicationDatabase: MedinotiappDatabase
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMedicationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        medicationDatabase = MedicationDatabase.getDatabase(this)
+        medicationDatabase = MedinotiappDatabase.getDatabase(this)
+        sessionManager = SessionManager(this)
 
         // Configurar los Spinners
         setupSpinners()
@@ -136,24 +141,31 @@ class AddMedicationActivity : AppCompatActivity() {
 
         if (name.isNotEmpty() && dosage.isNotEmpty() && frequency.isNotEmpty()) {
             lifecycleScope.launch(Dispatchers.IO) {
-                val newMedication = Medication(
-                    name = name,
-                    dosage = dosage,
-                    dosageQuantity = dosageQuantity,
-                    administrationType = administrationType,
-                    frequency = frequency,
-                    frecuencyOfTakeMedicine = frecuencyOfTakeMedicine,
-                    frecuencyOfTakeMedicineExactDay = frecuencyOfTakeMedicineExactDay,
-                    breakfast = breakfast,
-                    midMorning = midMorning,
-                    lunch = lunch,
-                    snacking = snacking,
-                    dinner = dinner
-                )
-                medicationDatabase.medicationDao().insert(newMedication)
+                val userId = sessionManager.getUserId()
+                if (userId != -1) {
+                    val newMedication = Medication(
+                        name = name,
+                        dosage = dosage,
+                        dosageQuantity = dosageQuantity,
+                        administrationType = administrationType,
+                        frequency = frequency,
+                        frecuencyOfTakeMedicine = frecuencyOfTakeMedicine,
+                        frecuencyOfTakeMedicineExactDay = frecuencyOfTakeMedicineExactDay,
+                        breakfast = breakfast,
+                        midMorning = midMorning,
+                        lunch = lunch,
+                        snacking = snacking,
+                        dinner = dinner,
+                        userId = userId
+                    )
+                    medicationDatabase.medicationDao().insert(newMedication)
 
-                setResult(Activity.RESULT_OK)
-                finish()
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                } else {
+                    // Maneja el caso en que no hay sesión activa
+                    showError("No hay sesión activa")
+                }
             }
         } else {
             showError("Por favor, complete todos los campos")

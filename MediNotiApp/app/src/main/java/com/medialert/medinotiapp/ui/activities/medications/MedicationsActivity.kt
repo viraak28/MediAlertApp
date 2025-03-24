@@ -4,15 +4,17 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.medialert.medinotiapp.adapters.MedicationAdapter
-import com.medialert.medinotiapp.data.MedicationDatabase
+import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityMedicationsBinding
 import com.medialert.medinotiapp.models.Medication
 import com.medialert.medinotiapp.models.Take
+import com.medialert.medinotiapp.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,7 +23,8 @@ class MedicationsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMedicationsBinding
     private lateinit var adapter: MedicationAdapter
-    private lateinit var medicationDatabase: MedicationDatabase
+    private lateinit var medicationDatabase: MedinotiappDatabase
+    private lateinit var sessionManager: SessionManager
 
     private val medications = mutableListOf<Medication>()
 
@@ -30,7 +33,8 @@ class MedicationsActivity : AppCompatActivity() {
         binding = ActivityMedicationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        medicationDatabase = MedicationDatabase.getDatabase(this)
+        medicationDatabase = MedinotiappDatabase.getDatabase(this)
+        sessionManager = SessionManager(this)
 
         setupRecyclerView()
         setupFab()
@@ -118,7 +122,6 @@ class MedicationsActivity : AppCompatActivity() {
         builder.setMessage("¿Estás seguro de continuar?")
         builder.setPositiveButton("Sí") { _, _ ->
             // Acción si se confirma
-            //medicationDatabase = MedicationDatabase.getDatabase(this)
             lifecycleScope.launch(Dispatchers.IO) {
                 medicationDatabase.medicationDao().delete(medication)
             }
@@ -134,12 +137,18 @@ class MedicationsActivity : AppCompatActivity() {
 
     private fun loadMedications() {
         lifecycleScope.launch {
-            medicationDatabase.medicationDao().getAll().collect { medicationsList ->
-                withContext(Dispatchers.Main) {
-                    medications.clear()
-                    medications.addAll(medicationsList)
-                    adapter.notifyDataSetChanged()
+            val userId = sessionManager.getUserId()
+            if (userId != -1) {
+                medicationDatabase.medicationDao().getMedicationsByUser(userId).collect { medicationsList ->
+                    withContext(Dispatchers.Main) {
+                        medications.clear()
+                        medications.addAll(medicationsList)
+                        adapter.notifyDataSetChanged()
+                    }
                 }
+            } else {
+                // Maneja el caso en que no hay sesión activa
+                showError("No hay sesión activa")
             }
         }
     }
@@ -168,21 +177,28 @@ class MedicationsActivity : AppCompatActivity() {
                 newMedicationDosage != null && newMedicationfrecuencyOfTakeMedicine!= null
                 && newMedicationfrecuencyOfTakeMedicineExactDay!= null) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val newMedication = Medication(
-                        name = newMedicationName,
-                        dosage = newMedicationDosage,
-                        frequency = newMedicationFrequency,
-                        dosageQuantity = newMedicationDosageQuantity,
-                        administrationType = newMedicationAdministrationType,
-                        breakfast = newMedicationBreakfast == true,
-                        midMorning = newMedicationMidMorning  == true,
-                        lunch = newMedicationLunch == true,
-                        snacking = newMedicationSnacking == true,
-                        dinner = newMedicationDinner == true,
-                        frecuencyOfTakeMedicine = newMedicationfrecuencyOfTakeMedicine,
-                        frecuencyOfTakeMedicineExactDay = newMedicationfrecuencyOfTakeMedicineExactDay
-                    )
-                    medicationDatabase.medicationDao().insert(newMedication)
+                    val userId = sessionManager.getUserId()
+                    if (userId != -1) {
+                        val newMedication = Medication(
+                            name = newMedicationName,
+                            dosage = newMedicationDosage,
+                            frequency = newMedicationFrequency,
+                            dosageQuantity = newMedicationDosageQuantity,
+                            administrationType = newMedicationAdministrationType,
+                            breakfast = newMedicationBreakfast == true,
+                            midMorning = newMedicationMidMorning  == true,
+                            lunch = newMedicationLunch == true,
+                            snacking = newMedicationSnacking == true,
+                            dinner = newMedicationDinner == true,
+                            frecuencyOfTakeMedicine = newMedicationfrecuencyOfTakeMedicine,
+                            frecuencyOfTakeMedicineExactDay = newMedicationfrecuencyOfTakeMedicineExactDay,
+                            userId = userId
+                        )
+                        medicationDatabase.medicationDao().insert(newMedication)
+                    } else {
+                        // Maneja el caso en que no hay sesión activa
+                        showError("No hay sesión activa")
+                    }
                 }
             } else {
                 // Maneja el caso en que los datos no están completos
@@ -210,23 +226,30 @@ class MedicationsActivity : AppCompatActivity() {
                 editedMedicationDosage != null && editedMedicationfrecuencyOfTakeMedicine!= null
                 && editedMedicationfrecuencyOfTakeMedicineExactDay!= null) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val updatedMedication = Medication(
-                        id = medicationId,
-                        name = editedMedicationName,
-                        dosage = editedMedicationDosage,
-                        frequency = editedMedicationFrequency,
-                        dosageQuantity = editedMedicationDosageQuantity,
-                        administrationType = editedMedicationAdministrationType,
-                        breakfast = editedMedicationBreakfast == true,
-                        midMorning = editedMedicationMidMorning == true,
-                        lunch = editedMedicationLunch == true,
-                        snacking = editedMedicationSnacking == true,
-                        dinner = editedMedicationDinner == true,
-                        frecuencyOfTakeMedicine = editedMedicationfrecuencyOfTakeMedicine,
-                        frecuencyOfTakeMedicineExactDay = editedMedicationfrecuencyOfTakeMedicineExactDay
-                    )
+                    val userId = sessionManager.getUserId()
+                    if (userId != -1) {
+                        val updatedMedication = Medication(
+                            id = medicationId,
+                            name = editedMedicationName,
+                            dosage = editedMedicationDosage,
+                            frequency = editedMedicationFrequency,
+                            dosageQuantity = editedMedicationDosageQuantity,
+                            administrationType = editedMedicationAdministrationType,
+                            breakfast = editedMedicationBreakfast == true,
+                            midMorning = editedMedicationMidMorning == true,
+                            lunch = editedMedicationLunch == true,
+                            snacking = editedMedicationSnacking == true,
+                            dinner = editedMedicationDinner == true,
+                            frecuencyOfTakeMedicine = editedMedicationfrecuencyOfTakeMedicine,
+                            frecuencyOfTakeMedicineExactDay = editedMedicationfrecuencyOfTakeMedicineExactDay,
+                            userId = userId
+                        )
 
-                    medicationDatabase.medicationDao().update(updatedMedication)
+                        medicationDatabase.medicationDao().update(updatedMedication)
+                    } else {
+                        // Maneja el caso en que no hay sesión activa
+                        showError("No hay sesión activa")
+                    }
                 }
             }
             else if (medicationId != -1 && editedMedicationName != null && editedMedicationFrequency != null &&
@@ -234,23 +257,30 @@ class MedicationsActivity : AppCompatActivity() {
                 editedMedicationDosage != null && editedMedicationfrecuencyOfTakeMedicine!= null
                ) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val updatedMedication = Medication(
-                        id = medicationId,
-                        name = editedMedicationName,
-                        dosage = editedMedicationDosage,
-                        frequency = editedMedicationFrequency,
-                        dosageQuantity = editedMedicationDosageQuantity,
-                        administrationType = editedMedicationAdministrationType,
-                        breakfast = editedMedicationBreakfast == true,
-                        midMorning = editedMedicationMidMorning == true,
-                        lunch = editedMedicationLunch == true,
-                        snacking = editedMedicationSnacking == true,
-                        dinner = editedMedicationDinner == true,
-                        frecuencyOfTakeMedicine = editedMedicationfrecuencyOfTakeMedicine,
-                        frecuencyOfTakeMedicineExactDay = ""
-                    )
+                    val userId = sessionManager.getUserId()
+                    if (userId != -1) {
+                        val updatedMedication = Medication(
+                            id = medicationId,
+                            name = editedMedicationName,
+                            dosage = editedMedicationDosage,
+                            frequency = editedMedicationFrequency,
+                            dosageQuantity = editedMedicationDosageQuantity,
+                            administrationType = editedMedicationAdministrationType,
+                            breakfast = editedMedicationBreakfast == true,
+                            midMorning = editedMedicationMidMorning == true,
+                            lunch = editedMedicationLunch == true,
+                            snacking = editedMedicationSnacking == true,
+                            dinner = editedMedicationDinner == true,
+                            frecuencyOfTakeMedicine = editedMedicationfrecuencyOfTakeMedicine,
+                            frecuencyOfTakeMedicineExactDay = "",
+                            userId = userId
+                        )
 
-                    medicationDatabase.medicationDao().update(updatedMedication)
+                        medicationDatabase.medicationDao().update(updatedMedication)
+                    } else {
+                        // Maneja el caso en que no hay sesión activa
+                        showError("No hay sesión activa")
+                    }
                 }
             }
             else {
