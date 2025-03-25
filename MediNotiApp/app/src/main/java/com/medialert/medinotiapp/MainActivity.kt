@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.medialert.medinotiapp.databinding.ActivityMainBinding
 import com.medialert.medinotiapp.ui.activities.SplashScreenActivity
 import com.medialert.medinotiapp.ui.activities.medications.MedicationsActivity
+import com.medialert.medinotiapp.ui.activities.reminders.NotiConfigActivity
 import com.medialert.medinotiapp.ui.activities.users.PerfilActivity
 import com.medialert.medinotiapp.utils.SessionManager
 
@@ -44,7 +45,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnReminders.setOnClickListener {
-            // TODO: Implement reminders functionality
+            val intent = Intent(this, NotiConfigActivity::class.java)
+            startActivity(intent)
         }
 
         binding.btnLogout.setOnClickListener {
