@@ -38,7 +38,7 @@ androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "card
 androidx-room-runtime = { module = "androidx.room:room-runtime", version = "2.6.1" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version = "2.6.1" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" } #kapt
+androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

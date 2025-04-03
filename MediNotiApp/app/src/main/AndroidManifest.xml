@@ -36,6 +36,14 @@ xmlns:tools="http://schemas.android.com/tools">
         android:theme="@style/Theme.Medinotiapp.NoActionBar"/>
     <activity android:name=".ui.activities.users.PerfilActivity"
         android:theme="@style/Theme.Medinotiapp.NoActionBar"/>
+    <activity
+        android:name=".ui.activities.medications.DailyMedicationsActivity"
+        android:theme="@style/Theme.Medinotiapp.NoActionBar"
+        android:exported="false"/>
+    <activity
+        android:name=".ui.activities.medications.WeeklyMedicationsActivity"
+        android:theme="@style/Theme.Medinotiapp.NoActionBar"
+        android:exported="false"/>
     <activity android:name=".ui.activities.reminders.NotiConfigActivity"
         android:theme="@style/Theme.Medinotiapp.NoActionBar"/>
     <activity android:name=".ui.activities.users.CambiarContrasenaActivity"

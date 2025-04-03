@@ -6,10 +6,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.medialert.medinotiapp.databinding.ActivityMainBinding
 import com.medialert.medinotiapp.ui.activities.SplashScreenActivity
+import com.medialert.medinotiapp.ui.activities.medications.DailyMedicationsActivity
 import com.medialert.medinotiapp.ui.activities.medications.MedicationsActivity
+import com.medialert.medinotiapp.ui.activities.medications.WeeklyMedicationsActivity
 import com.medialert.medinotiapp.ui.activities.reminders.NotiConfigActivity
 import com.medialert.medinotiapp.ui.activities.users.PerfilActivity
 import com.medialert.medinotiapp.utils.SessionManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
 
         setupNavigationButtons()
+        setupWeekButton()
     }
 
     private fun setupNavigationButtons() {
@@ -34,13 +39,17 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("USUARIO_ID", userId)
                 startActivity(intent)
             } else {
-                // Maneja el caso en que no hay sesión activa
                 Toast.makeText(this, "No hay sesión activa", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.btnMedications.setOnClickListener {
             val intent = Intent(this, MedicationsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnDay.setOnClickListener {
+            val intent = Intent(this, DailyMedicationsActivity::class.java)
             startActivity(intent)
         }
 
@@ -55,5 +64,32 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun setupWeekButton() {
+        val weekRange = getWeekRange()
+        binding.txtWeekRange.text = weekRange
+
+        binding.btnWeek.setOnClickListener {
+            val intent = Intent(this, WeeklyMedicationsActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun getWeekRange(): String {
+        val calendar = Calendar.getInstance()
+
+        // Establecer el primer día de la semana (lunes)
+        calendar.firstDayOfWeek = Calendar.MONDAY
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+
+        val startOfWeek = calendar.time
+
+        calendar.add(Calendar.DAY_OF_WEEK, 6) // Sumar 6 días para obtener el último día de la semana
+        val endOfWeek = calendar.time
+
+        // Formato de fecha: por ejemplo "07 Abr - 13 Abr"
+        val dateFormat = SimpleDateFormat("dd MMM", Locale("es", "ES"))
+        return "${dateFormat.format(startOfWeek)} - ${dateFormat.format(endOfWeek)}"
     }
 }
