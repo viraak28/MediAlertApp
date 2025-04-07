@@ -202,7 +202,7 @@ class MedicationsActivity : AppCompatActivity() {
                 }
             } else {
                 // Maneja el caso en que los datos no están completos
-                showError("No se han recibido todos los datos necesarios")
+                //showError("No se han recibido todos los datos necesarios")
             }
         } else if (requestCode == EDIT_MEDICATION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val medicationId = data?.getIntExtra("MEDICATION_ID", -1) ?: -1
@@ -285,7 +285,7 @@ class MedicationsActivity : AppCompatActivity() {
             }
             else {
                 // Maneja el caso en que los datos no están completos
-                showError("No se han recibido todos los datos necesarios para editar")
+                //showError("No se han recibido todos los datos necesarios para editar")
             }
         }
     }

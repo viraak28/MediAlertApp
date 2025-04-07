@@ -45,6 +45,7 @@ class AddMedicationActivity : AppCompatActivity() {
             R.array.dosage_options,
             android.R.layout.simple_spinner_item
         )
+
         dosageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerDosage.adapter = dosageAdapter
 

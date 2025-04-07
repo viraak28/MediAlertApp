@@ -41,6 +41,7 @@ class NotiConfigActivity : AppCompatActivity() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
+                binding.llRemindersConfig.visibility = View.VISIBLE
                 crearRecordatorios()
             } else {
                 Toast.makeText(this, "Es necesario el permiso para enviar notificaciones", Toast.LENGTH_SHORT).show()
