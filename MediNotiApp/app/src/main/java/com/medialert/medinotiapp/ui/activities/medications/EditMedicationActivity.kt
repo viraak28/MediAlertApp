@@ -193,7 +193,7 @@ class EditMedicationActivity : AppCompatActivity() {
         val snacking = binding.etMedicationSnacking.isChecked
         val dinner = binding.etMedicationDinner.isChecked
 
-        val checkEmptyVal = name.isNotEmpty() && dosage.isNotEmpty() && frequency.isNotEmpty()
+        val checkEmptyVal = name.isNotEmpty() && dosage.isNotEmpty()
         val checkEmptySpinner = dosageQuantity.isNotEmpty() && administrationType.isNotEmpty()
                 && frecuencyOfTakeMedicine.isNotEmpty()
 

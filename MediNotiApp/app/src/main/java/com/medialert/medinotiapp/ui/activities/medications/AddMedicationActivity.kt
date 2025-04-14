@@ -140,7 +140,7 @@ class AddMedicationActivity : AppCompatActivity() {
         val snacking = binding.etMedicationSnacking.isChecked
         val dinner = binding.etMedicationDinner.isChecked
 
-        if (name.isNotEmpty() && dosage.isNotEmpty() && frequency.isNotEmpty()) {
+        if (name.isNotEmpty() && dosage.isNotEmpty()) {
             lifecycleScope.launch(Dispatchers.IO) {
                 val userId = sessionManager.getUserId()
                 if (userId != -1) {
