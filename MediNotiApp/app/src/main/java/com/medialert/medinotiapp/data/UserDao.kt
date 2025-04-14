@@ -2,6 +2,7 @@ package com.medialert.medinotiapp.data
 
 import androidx.room.*
 import com.medialert.medinotiapp.models.UserWithMedications
+import com.medialert.medinotiapp.models.UserWithNotebooks
 import com.medialert.medinotiapp.models.User
 import kotlinx.coroutines.flow.Flow
 
@@ -28,4 +29,8 @@ interface UserDao {
     @Transaction
     @Query("SELECT * FROM users WHERE id = :userId")
     suspend fun getUserWithMedications(userId: Int): UserWithMedications
+
+    @Transaction
+    @Query("SELECT * FROM users WHERE id = :userId")
+    suspend fun getUserWithNotebooks(userId: Int): UserWithNotebooks
 }

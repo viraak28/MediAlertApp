@@ -10,6 +10,7 @@ import com.medialert.medinotiapp.ui.activities.medications.DailyMedicationsActiv
 import com.medialert.medinotiapp.ui.activities.medications.MedicationsActivity
 import com.medialert.medinotiapp.ui.activities.medications.WeeklyMedicationsActivity
 import com.medialert.medinotiapp.ui.activities.reminders.NotiConfigActivity
+import com.medialert.medinotiapp.ui.activities.notebooks.NotebooksActivity
 import com.medialert.medinotiapp.ui.activities.users.PerfilActivity
 import com.medialert.medinotiapp.utils.SessionManager
 import java.text.SimpleDateFormat
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         setupNavigationButtons()
         setupWeekButton()
+        setupNotebookButton()
     }
 
     private fun setupNavigationButtons() {
@@ -72,6 +74,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnWeek.setOnClickListener {
             val intent = Intent(this, WeeklyMedicationsActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun setupNotebookButton() {
+        binding.btnNotebook.setOnClickListener {
+            val intent = Intent(this, NotebooksActivity::class.java)
             startActivity(intent)
         }
     }

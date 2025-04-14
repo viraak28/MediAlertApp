@@ -57,5 +57,17 @@ xmlns:tools="http://schemas.android.com/tools">
         android:exported="false"/>
     <activity android:name=".ui.activities.medications.EditMedicationActivity"
         android:exported="false"/>
+    <activity
+        android:name=".ui.activities.notebooks.NotebooksActivity"
+        android:theme="@style/Theme.Medinotiapp.NoActionBar"
+        android:exported="false"/>
+    <activity
+        android:name=".ui.activities.notebooks.NotebookDetailsActivity"
+        android:theme="@style/Theme.Medinotiapp.NoActionBar"
+        android:exported="false"/>
+    <activity
+        android:name=".ui.activities.notebooks.AddNoteActivity"
+        android:theme="@style/Theme.Medinotiapp.NoActionBar"
+        android:exported="false" />
 </application>
 </manifest>
