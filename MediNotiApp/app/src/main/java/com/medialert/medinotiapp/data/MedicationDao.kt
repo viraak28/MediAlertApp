@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MedicationDao {
     @Query("SELECT * FROM medications")
-    fun getAll(): Flow<List<Medication>>
+    suspend fun getAll(): List<Medication>
 
     @Query("SELECT * FROM medications WHERE id = :medicationId")
     suspend fun getMedicationById(medicationId: Int): Medication

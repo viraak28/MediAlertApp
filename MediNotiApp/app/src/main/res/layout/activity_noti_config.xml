@@ -1,327 +1,509 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:fitsSystemWindows="true">
 
-    <Switch
-        android:id="@+id/Noti_ON"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:text="Recordatorios"
-        android:textSize="24sp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp" />
-
     <LinearLayout
-        android:id="@+id/llRemindersConfig"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
+
+        <Switch
+            android:id="@+id/Noti_ON"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="Recordatorios"
+            android:textSize="24sp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
+
 
         <LinearLayout
+            android:id="@+id/llRemindersConfig"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/etMedicationBreakfast"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/BreakfastCard"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:importantForAccessibility="yes"
-                android:text=" Desayuno ---> "
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="18dp"
-                tools:layout_editor_absoluteY="97dp" />
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <EditText
-                android:id="@+id/etMedicationBreakfasthour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Hora"
-                android:textSize="20sp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                tools:layout_editor_absoluteX="21dp"
-                tools:layout_editor_absoluteY="167dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="83dp"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
 
-            <TextView
-                android:id="@+id/etMedicationBreakfastdivision"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:text=":"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
+                        <!-- Nombre de la comida-->
+                        <TextView
+                            android:id="@+id/tvNameBreakfast"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="DESAYUN0"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/etMedicationBreakfastminutes"
-                android:layout_width="wrap_content"
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:id="@+id/btnDeactivateBreakfastNoti"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DESACTIVAR"
+                            android:textAlignment="center"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <EditText
+                            android:id="@+id/etMedicationBreakfastHour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Hora"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="21dp"
+                            tools:layout_editor_absoluteY="167dp" />
+
+                        <TextView
+                            android:id="@+id/etMedicationBreakfastdivision"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:text=":"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+
+                        <EditText
+                            android:id="@+id/etMedicationBreakfastMinute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Minutos"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/MidMorningCard"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Minutos"
-                android:textSize="20sp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="83dp"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <!-- Nombre de la media mañana-->
+                        <TextView
+                            android:id="@+id/tvNameMidMorning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="MEDIA MAÑANA"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:id="@+id/btnDeactivateMidMorningNoti"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DESACTIVAR"
+                            android:textAlignment="center"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <EditText
+                            android:id="@+id/etMedicationMidMorningHour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Hora"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="21dp"
+                            tools:layout_editor_absoluteY="167dp" />
+
+                        <TextView
+                            android:id="@+id/etMedicationMidMorningdivision"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:text=":"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+
+                        <EditText
+                            android:id="@+id/etMedicationMidMorningMinute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Minutos"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/LunchCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="83dp"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <!-- Nombre de la comida-->
+                        <TextView
+                            android:id="@+id/tvNameLunch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="COMIDA"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:id="@+id/btnDeactivateLunchNoti"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DESACTIVAR"
+                            android:textAlignment="center"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <EditText
+                            android:id="@+id/etMedicationLunchHour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Hora"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="21dp"
+                            tools:layout_editor_absoluteY="167dp" />
+
+                        <TextView
+                            android:id="@+id/etMedicationLunchdivision"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:text=":"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+
+                        <EditText
+                            android:id="@+id/etMedicationLunchMinute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Minutos"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/SnackingCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="83dp"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <!-- Nombre de la comida-->
+                        <TextView
+                            android:id="@+id/tvNameSnacking"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="MERIENDA"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:id="@+id/btnDeactivateSnackingNoti"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DESACTIVAR"
+                            android:textAlignment="center"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <EditText
+                            android:id="@+id/etMedicationSnackingHour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Hora"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="21dp"
+                            tools:layout_editor_absoluteY="167dp" />
+
+                        <TextView
+                            android:id="@+id/etMedicationSnackingdivision"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:text=":"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+
+                        <EditText
+                            android:id="@+id/etMedicationSnackingMinute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Minutos"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/DinnerCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="83dp"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <!-- Nombre de la comida-->
+                        <TextView
+                            android:id="@+id/tvNameDinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="CENA"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:id="@+id/btnDeactivateDinnerNoti"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DESACTIVAR"
+                            android:textAlignment="center"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <EditText
+                            android:id="@+id/etMedicationDinnerHour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Hora"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="21dp"
+                            tools:layout_editor_absoluteY="167dp" />
+
+                        <TextView
+                            android:id="@+id/etMedicationDinnerdivision"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:text=":"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+
+                        <EditText
+                            android:id="@+id/etMedicationDinnerMinute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:text="Minutos"
+                            android:textSize="20sp"
+                            tools:layout_editor_absoluteX="19dp"
+                            tools:layout_editor_absoluteY="130dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnCreateReminders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ACTUALIZAR RECORDATORIOS"
+                android:textSize="24sp" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/etMedicationMidMonning"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:importantForAccessibility="yes"
-                android:text=" Media Mañana ---> "
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="18dp"
-                tools:layout_editor_absoluteY="97dp" />
-
-            <EditText
-                android:id="@+id/etMedicationMidMonningHour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Hora"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="21dp"
-                tools:layout_editor_absoluteY="167dp" />
-            <TextView
-                android:id="@+id/etMedicationMidMonningdivision"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:text=":"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
-
-            <EditText
-                android:id="@+id/etMedicationMidMonningMinute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Minutos"
-                android:textSize="20sp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/etMedicationLunch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:importantForAccessibility="yes"
-                android:text=" Comida ---> "
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="18dp"
-                tools:layout_editor_absoluteY="97dp" />
-
-            <EditText
-                android:id="@+id/etMedicationLunchHour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Hora"
-                android:textSize="20sp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                tools:layout_editor_absoluteX="21dp"
-                tools:layout_editor_absoluteY="167dp" />
-
-            <TextView
-                android:id="@+id/etMedicationLunchdivision"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:text=":"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
-
-            <EditText
-                android:id="@+id/etMedicationLunchMinute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Minutos"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/etMedicationSnacking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:importantForAccessibility="yes"
-                android:text=" Merienda ---> "
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="18dp"
-                tools:layout_editor_absoluteY="97dp" />
-
-            <EditText
-                android:id="@+id/etMedicationSnakingHour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Hora"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="21dp"
-                tools:layout_editor_absoluteY="167dp" />
-
-            <TextView
-                android:id="@+id/etMedicationSnackingdivision"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:text=":"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
-
-            <EditText
-                android:id="@+id/etMedicationSnackingMinute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Minutos"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/etMedicationDinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:importantForAccessibility="yes"
-                android:text=" Cena ---> "
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="18dp"
-                tools:layout_editor_absoluteY="97dp" />
-
-            <EditText
-                android:id="@+id/etMedicationDinnerHour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Hora"
-                android:textSize="20sp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                tools:layout_editor_absoluteX="21dp"
-                tools:layout_editor_absoluteY="167dp" />
-
-            <TextView
-                android:id="@+id/etMedicationDinnerdivision"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:text=":"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
-
-            <EditText
-                android:id="@+id/etMedicationDinerMinute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:text="Minutos"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="130dp" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnCreateReminders"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Crear recordatorios" />
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
