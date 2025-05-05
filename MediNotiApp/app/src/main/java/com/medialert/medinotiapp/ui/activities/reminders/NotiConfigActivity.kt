@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.medialert.medinotiapp.R
@@ -42,8 +43,8 @@ class NotiConfigActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
         setupPermissionLauncher()
-        setupUI()
         cargarEstado()
+        setupUI()
         verificarMedicamentosIniciales()
     }
 
@@ -55,6 +56,7 @@ class NotiConfigActivity : AppCompatActivity() {
                 binding.llRemindersConfig.visibility = View.VISIBLE
                 cambiosPendientes = true
             } else {
+                cancelarTodosRecordatorios()
                 Toast.makeText(this, "Permiso necesario para notificaciones", Toast.LENGTH_SHORT).show()
             }
         }
@@ -63,10 +65,15 @@ class NotiConfigActivity : AppCompatActivity() {
     private fun setupUI() {
         binding.btnCreateReminders.text = "Actualizar Recordatorios"
 
+        // Configurar listeners después de cargar el estado
         binding.NotiON.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) solicitarPermisoYMostrarConfiguracion()
-            else binding.llRemindersConfig.visibility = View.GONE
+            else {
+                binding.llRemindersConfig.visibility = View.GONE
+                cancelarTodosRecordatorios()
+            }
             cambiosPendientes = true
+            guardarEstado()
         }
 
         binding.btnCreateReminders.setOnClickListener {
@@ -91,6 +98,7 @@ class NotiConfigActivity : AppCompatActivity() {
                         if (tieneMedicamentos) {
                             toggleButtonState(button)
                             cambiosPendientes = true
+                            guardarEstado() // Guardar inmediatamente
                         } else {
                             Toast.makeText(
                                 this@NotiConfigActivity,
@@ -151,7 +159,9 @@ class NotiConfigActivity : AppCompatActivity() {
     }
 
     private fun toggleButtonState(button: Button) {
-        button.text = if (button.text == "ACTIVAR") "DESACTIVAR" else "ACTIVAR"
+        val wasActivated = button.text == "DESACTIVAR"
+        button.text = if (wasActivated) "ACTIVAR" else "DESACTIVAR"
+
         val comida = when (button.id) {
             R.id.btnDeactivateBreakfastNoti -> "Desayuno"
             R.id.btnDeactivateMidMorningNoti -> "Media Mañana"
@@ -160,7 +170,12 @@ class NotiConfigActivity : AppCompatActivity() {
             R.id.btnDeactivateDinnerNoti -> "Cena"
             else -> ""
         }
-        setTimeInputsEnabled(button.text == "DESACTIVAR", *getTimeInputsForMeal(comida))
+
+        if (wasActivated) {
+            cancelarRecordatorio(comida)
+        }
+
+        setTimeInputsEnabled(!wasActivated, *getTimeInputsForMeal(comida))
     }
 
     private fun getTimeInputsForMeal(comida: String): Array<EditText> {
@@ -229,6 +244,7 @@ class NotiConfigActivity : AppCompatActivity() {
             if (!isNotiON) {
                 cancelarTodosRecordatorios()
                 withContext(Dispatchers.Main) {
+                    guardarEstado()
                     Toast.makeText(
                         this@NotiConfigActivity,
                         "Recordatorios desactivados",
@@ -271,8 +287,14 @@ class NotiConfigActivity : AppCompatActivity() {
         }
     }
 
+    private fun cancelarRecordatorio(tipoComida: String) {
+        val userId = sessionManager.getUserId()
+        WorkManager.getInstance(this).cancelUniqueWork("${tipoComida}_${userId}")
+    }
+
     private fun cancelarTodosRecordatorios() {
-        WorkManager.getInstance(this).cancelAllWork()
+        val userId = sessionManager.getUserId()
+        WorkManager.getInstance(this).cancelAllWorkByTag("recordatorio_medicacion_$userId")
     }
 
     private fun crearRecordatorioIndividual(hora: String, tipoComida: String) {
@@ -296,9 +318,14 @@ class NotiConfigActivity : AppCompatActivity() {
                         .putString("userName", userName)
                         .build()
                 )
+                .addTag("recordatorio_medicacion_$userId")
                 .build()
 
-            WorkManager.getInstance(applicationContext).enqueue(request)
+            WorkManager.getInstance(applicationContext).enqueueUniqueWork(
+                "${tipoComida}_${userId}",
+                ExistingWorkPolicy.REPLACE,
+                request
+            )
         }
     }
 
@@ -324,7 +351,21 @@ class NotiConfigActivity : AppCompatActivity() {
         val prefsName = "recordatorios_prefs_${sessionManager.getUserId()}"
         val prefs = getSharedPreferences(prefsName, MODE_PRIVATE)
 
+        // Cargar estado principal
         binding.NotiON.isChecked = prefs.getBoolean("recordatoriosActivos", false)
+
+        // Cargar estado de cada comida
+        listOf(
+            "Desayuno" to binding.btnDeactivateBreakfastNoti,
+            "Media Mañana" to binding.btnDeactivateMidMorningNoti,
+            "Comida" to binding.btnDeactivateLunchNoti,
+            "Merienda" to binding.btnDeactivateSnackingNoti,
+            "Cena" to binding.btnDeactivateDinnerNoti
+        ).forEach { (comida, button) ->
+            button.text = prefs.getString("estado_$comida", "ACTIVAR")
+        }
+
+        // Cargar horas
         binding.etMedicationBreakfastHour.setText(prefs.getString("horaDesayunoHour", "07"))
         binding.etMedicationBreakfastMinute.setText(prefs.getString("horaDesayunoMinute", "00"))
         binding.etMedicationMidMorningHour.setText(prefs.getString("horaMediaMananaHour", "11"))
@@ -336,22 +377,44 @@ class NotiConfigActivity : AppCompatActivity() {
         binding.etMedicationDinnerHour.setText(prefs.getString("horaCenaHour", "21"))
         binding.etMedicationDinnerMinute.setText(prefs.getString("horaCenaMinute", "00"))
 
-        if (binding.NotiON.isChecked) {
-            binding.llRemindersConfig.visibility = View.VISIBLE
-        } else {
-            binding.llRemindersConfig.visibility = View.GONE
-        }
-
-        binding.NotiON.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                solicitarPermisoYMostrarConfiguracion()
-            } else {
-                binding.llRemindersConfig.visibility = View.GONE
-            }
-            guardarEstado()
-        }
+        // Configurar visibilidad
+        binding.llRemindersConfig.visibility = if (binding.NotiON.isChecked) View.VISIBLE else View.GONE
 
         setupTextWatchers()
+    }
+
+    private fun guardarEstado() {
+        val prefsName = "recordatorios_prefs_${sessionManager.getUserId()}"
+        val prefs = getSharedPreferences(prefsName, MODE_PRIVATE)
+        val editor = prefs.edit()
+
+        // Guardar estado principal
+        editor.putBoolean("recordatoriosActivos", binding.NotiON.isChecked)
+
+        // Guardar estado de cada comida
+        listOf(
+            "Desayuno" to binding.btnDeactivateBreakfastNoti.text.toString(),
+            "Media Mañana" to binding.btnDeactivateMidMorningNoti.text.toString(),
+            "Comida" to binding.btnDeactivateLunchNoti.text.toString(),
+            "Merienda" to binding.btnDeactivateSnackingNoti.text.toString(),
+            "Cena" to binding.btnDeactivateDinnerNoti.text.toString()
+        ).forEach { (comida, estado) ->
+            editor.putString("estado_$comida", estado)
+        }
+
+        // Guardar horas
+        editor.putString("horaDesayunoHour", binding.etMedicationBreakfastHour.text.toString())
+        editor.putString("horaDesayunoMinute", binding.etMedicationBreakfastMinute.text.toString())
+        editor.putString("horaMediaMananaHour", binding.etMedicationMidMorningHour.text.toString())
+        editor.putString("horaMediaMananaMinute", binding.etMedicationMidMorningMinute.text.toString())
+        editor.putString("horaComidaHour", binding.etMedicationLunchHour.text.toString())
+        editor.putString("horaComidaMinute", binding.etMedicationLunchMinute.text.toString())
+        editor.putString("horaMeriendaHour", binding.etMedicationSnackingHour.text.toString())
+        editor.putString("horaMeriendaMinute", binding.etMedicationSnackingMinute.text.toString())
+        editor.putString("horaCenaHour", binding.etMedicationDinnerHour.text.toString())
+        editor.putString("horaCenaMinute", binding.etMedicationDinnerMinute.text.toString())
+
+        editor.apply()
     }
 
     private fun setupTextWatchers() {
@@ -371,25 +434,5 @@ class NotiConfigActivity : AppCompatActivity() {
                 guardarEstado()
             }
         }
-    }
-
-    private fun guardarEstado() {
-        val prefsName = "recordatorios_prefs_${sessionManager.getUserId()}"
-        val prefs = getSharedPreferences(prefsName, MODE_PRIVATE)
-        val editor = prefs.edit()
-
-        editor.putBoolean("recordatoriosActivos", binding.NotiON.isChecked)
-        editor.putString("horaDesayunoHour", binding.etMedicationBreakfastHour.text.toString())
-        editor.putString("horaDesayunoMinute", binding.etMedicationBreakfastMinute.text.toString())
-        editor.putString("horaMediaMananaHour", binding.etMedicationMidMorningHour.text.toString())
-        editor.putString("horaMediaMananaMinute", binding.etMedicationMidMorningMinute.text.toString())
-        editor.putString("horaComidaHour", binding.etMedicationLunchHour.text.toString())
-        editor.putString("horaComidaMinute", binding.etMedicationLunchMinute.text.toString())
-        editor.putString("horaMeriendaHour", binding.etMedicationSnackingHour.text.toString())
-        editor.putString("horaMeriendaMinute", binding.etMedicationSnackingMinute.text.toString())
-        editor.putString("horaCenaHour", binding.etMedicationDinnerHour.text.toString())
-        editor.putString("horaCenaMinute", binding.etMedicationDinnerMinute.text.toString())
-
-        editor.apply()
     }
 }

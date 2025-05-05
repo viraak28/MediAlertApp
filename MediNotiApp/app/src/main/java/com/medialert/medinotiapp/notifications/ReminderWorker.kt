@@ -24,17 +24,22 @@ class ReminderWorker(private val context: Context, params: WorkerParameters) :
     CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        withContext(Dispatchers.IO) {
-            sendReminder()
+        if (isStopped) return Result.failure()
+
+        return try {
+            withContext(Dispatchers.IO) {
+                sendReminder()
+            }
+            Result.success()
+        } catch (e: Exception) {
+            Result.failure()
         }
-        return Result.success()
     }
 
     @SuppressLint("MissingPermission")
     private fun sendReminder() {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        // Configura el canal de notificaciones si es necesario
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 "recordatorio_channel",
@@ -44,11 +49,9 @@ class ReminderWorker(private val context: Context, params: WorkerParameters) :
             notificationManager.createNotificationChannel(channel)
         }
 
-        // Obtiene los datos adicionales
-        val tipoComida = inputData.getString("tipoComida")
-        val userName = inputData.getString("userName")
+        val tipoComida = inputData.getString("tipoComida") ?: return
+        val userName = inputData.getString("userName") ?: return
 
-        // Crea la notificación
         val builder = NotificationCompat.Builder(context, "recordatorio_channel")
             .setSmallIcon(R.drawable.ic_notifications_black_24dp)
             .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_notifications_black_24dp))
@@ -56,13 +59,17 @@ class ReminderWorker(private val context: Context, params: WorkerParameters) :
             .setContentText("$userName, es hora de tomar su medicamento de $tipoComida")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        // Agrega una acción para abrir la app al hacer clic en la notificación
         val intent = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         builder.setContentIntent(pendingIntent)
 
-        // Muestra la notificación
         val notificationManagerCompat = NotificationManagerCompat.from(context)
-        notificationManagerCompat.notify(1, builder.build())
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            notificationManagerCompat.notify(System.currentTimeMillis().toInt(), builder.build())
+        }
     }
 }

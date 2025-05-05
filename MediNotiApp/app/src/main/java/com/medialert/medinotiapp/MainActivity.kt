@@ -1,5 +1,6 @@
 package com.medialert.medinotiapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -31,6 +32,14 @@ class MainActivity : AppCompatActivity() {
         setupNavigationButtons()
         setupWeekButton()
         setupNotebookButton()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        sessionManager.clearSession()
+        val intent = Intent(this, SplashScreenActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun setupNavigationButtons() {
