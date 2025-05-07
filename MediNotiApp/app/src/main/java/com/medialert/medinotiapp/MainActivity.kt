@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityMainBinding
 import com.medialert.medinotiapp.ui.activities.SplashScreenActivity
 import com.medialert.medinotiapp.ui.activities.medications.DailyMedicationsActivity
@@ -14,6 +16,9 @@ import com.medialert.medinotiapp.ui.activities.reminders.NotiConfigActivity
 import com.medialert.medinotiapp.ui.activities.notebooks.NotebooksActivity
 import com.medialert.medinotiapp.ui.activities.users.PerfilActivity
 import com.medialert.medinotiapp.utils.SessionManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sessionManager: SessionManager
+    private lateinit var medinotiappDatabase: MedinotiappDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +34,32 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sessionManager = SessionManager(this)
+        medinotiappDatabase = MedinotiappDatabase.getDatabase(this)
+
+        displayUsername()
 
         setupNavigationButtons()
         setupWeekButton()
         setupNotebookButton()
+    }
+
+    private fun displayUsername() {
+        val userId = sessionManager.getUserId()
+        if (userId != -1) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val usuario = medinotiappDatabase.userDao().getUserById(userId)
+
+                withContext(Dispatchers.Main) {
+                    if (usuario != null) {
+                        binding.tvUserName.text = "${usuario.nombre} ${usuario.apellido}"
+                    } else {
+                        binding.tvUserName.text = "USUARIO NO IDENTIFICADO"
+                    }
+                }
+            }
+        } else {
+            binding.tvUserName.text = "USUARIO NO IDENTIFICADO"
+        }
     }
 
     override fun onBackPressed() {
