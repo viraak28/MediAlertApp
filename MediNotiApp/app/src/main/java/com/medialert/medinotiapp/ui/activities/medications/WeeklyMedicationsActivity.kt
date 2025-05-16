@@ -3,6 +3,7 @@ package com.medialert.medinotiapp.ui.activities.medications
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,6 +63,18 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
     }
 
     private fun setupSpinner() {
+        val daysOfWeek = listOf(
+            "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"
+        )
+
+        val spinnerAdapter = ArrayAdapter(
+            this,
+            R.layout.item_spinner,
+            daysOfWeek
+        )
+
+        binding.spinnerDays.adapter = spinnerAdapter
+
         val todayIndex = getTodayIndex()
 
         binding.spinnerDays.setSelection(todayIndex)

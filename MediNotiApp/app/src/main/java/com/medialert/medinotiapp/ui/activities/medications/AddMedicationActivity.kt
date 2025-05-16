@@ -43,7 +43,7 @@ class AddMedicationActivity : AppCompatActivity() {
         val dosageAdapter = ArrayAdapter.createFromResource(
             this,
             R.array.dosage_options,
-            android.R.layout.simple_spinner_item
+            R.layout.item_spinner
         )
 
         dosageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -53,7 +53,7 @@ class AddMedicationActivity : AppCompatActivity() {
         val administrationAdapter = ArrayAdapter.createFromResource(
             this,
             R.array.administration_options,
-            android.R.layout.simple_spinner_item
+            R.layout.item_spinner
         )
         administrationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerAdministration.adapter = administrationAdapter
@@ -61,7 +61,7 @@ class AddMedicationActivity : AppCompatActivity() {
         val frecuencyoftakemedicineAdapter = ArrayAdapter.createFromResource(
             this,
             R.array.frecuencyoftakemedicine,
-            android.R.layout.simple_spinner_item
+            R.layout.item_spinner
         )
         administrationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerFrecuencyoftakemedicine.adapter = frecuencyoftakemedicineAdapter
@@ -69,7 +69,7 @@ class AddMedicationActivity : AppCompatActivity() {
         val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
             this,
             R.array.emptyArray,
-            android.R.layout.simple_spinner_item)
+            R.layout.item_spinner)
         frecuencyoftakemedicineexactdayadapter .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
 
@@ -82,7 +82,7 @@ class AddMedicationActivity : AppCompatActivity() {
                         val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
                             this@AddMedicationActivity,
                             R.array.frecuencyofweek,
-                            android.R.layout.simple_spinner_item)
+                            R.layout.item_spinner)
                         frecuencyoftakemedicineexactdayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
                         binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.VISIBLE
@@ -91,7 +91,7 @@ class AddMedicationActivity : AppCompatActivity() {
                        val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
                            this@AddMedicationActivity,
                             R.array.frecuencyofweek,
-                            android.R.layout.simple_spinner_item)
+                           R.layout.item_spinner)
                         frecuencyoftakemedicineexactdayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
                         binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.VISIBLE
@@ -100,7 +100,7 @@ class AddMedicationActivity : AppCompatActivity() {
                         val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
                             this@AddMedicationActivity,
                             R.array.frecuencyofmonth,
-                            android.R.layout.simple_spinner_item)
+                            R.layout.item_spinner)
                         frecuencyoftakemedicineexactdayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
                         binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.VISIBLE
