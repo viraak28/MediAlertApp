@@ -142,10 +142,14 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
     }
 
     private fun isDayInWeeklySchedule(med: Medication): Boolean {
-        val selectedDayName = getDayName(currentSelectedDay)
+        val calendar = currentWeekStart.clone() as Calendar
+        val offset = currentSelectedDay - calendar.get(Calendar.DAY_OF_WEEK)
+        calendar.add(Calendar.DAY_OF_WEEK, offset)
+        val selectedDayName = getDayName(calendar.get(Calendar.DAY_OF_WEEK))
+
         return med.frecuencyOfTakeMedicineExactDay.contains(selectedDayName, ignoreCase = true)
     }
-
+    
     private fun isDayInBiweeklySchedule(med: Medication): Boolean {
         val weekOfYear = currentWeekStart.get(Calendar.WEEK_OF_YEAR)
         val isEvenWeek = weekOfYear % 2 == 0

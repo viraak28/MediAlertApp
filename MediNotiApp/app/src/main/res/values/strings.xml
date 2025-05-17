@@ -30,10 +30,10 @@
     <string-array name="frecuencyofweek">
         <item>Lunes</item>
         <item>Martes</item>
-        <item>Miercoles</item>
+        <item>Miércoles</item>
         <item>Jueves</item>
         <item>Viernes</item>
-        <item>Sabado</item>
+        <item>Sábado</item>
         <item>Domingo</item>
     </string-array>
     <string-array name="frecuencyofmonth">
