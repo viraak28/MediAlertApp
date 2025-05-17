@@ -5,48 +5,156 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:scrollbarSize="22dp">
-
-    <!-- Campo para el nombre del medicamento -->
-
-    <!-- Campo para la dosis del medicamento -->
-
-    <!-- Campo para la frecuencia del medicamento -->
-
-    <EditText
-        android:id="@+id/etMedicationName"
+    <!-- NOMBRE -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del medicamento"
-        android:importantForAccessibility="yes"
-        android:inputType="text"
-        android:textSize="22sp" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
 
-    <EditText
-        android:id="@+id/etMedicationDosage"
+        <TextView
+            style="@style/AppTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:text="AÑADE UN MEDICAMENTO"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <!-- NOMBRE -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="Dosis (ej. 500 mg)"
-        android:importantForAccessibility="yes"
-        android:inputType="text"
-        android:textSize="22sp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/back_Text"
+            android:background="@drawable/border"
+            android:text="NOMBRE"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="12dp"/>
+        <EditText
+            android:id="@+id/etMedicationName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:importantForAccessibility="yes"
+            android:inputType="text"
+            android:textSize="22sp" />
+    </LinearLayout>
 
-    <Spinner
-        android:id="@+id/spinner_dosage"
+    <!-- DOSIS -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="Selecciona la cantidad"
-        android:theme="@style/SpinnerTextStyle" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/back_Text"
+            android:textColor="@color/white"
+            android:text="DOSIS"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="12dp"/>
+        <EditText
+            android:id="@+id/etMedicationDosage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="ej. 500 mg"
+            android:importantForAccessibility="yes"
+            android:inputType="text"
+            android:textSize="22sp" />
+    </LinearLayout>
 
-    <Spinner
-        android:id="@+id/spinner_administration"
+    <!-- CANTIDAD -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="@string/selecciona_el_tipo"
-        android:theme="@style/SpinnerTextStyle" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/back_Text"
+            android:text="CANTIDAD"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="12dp"/>
+        <Spinner
+            android:id="@+id/spinner_dosage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Selecciona la cantidad"
+            android:theme="@style/SpinnerTextStyle" />
+    </LinearLayout>
 
+    <!-- FORMATO -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/back_Text"
+            android:text="FORMATO"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="12dp"/>
+        <Spinner
+            android:id="@+id/spinner_administration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/selecciona_el_tipo"
+            android:theme="@style/SpinnerTextStyle" />
+    </LinearLayout>
+
+    <!-- FRECUENCIA (Texto y Spinner alineados) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:id="@+id/tvFrecuenciaLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/back_Text"
+            android:text="FRECUENCIA"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="12dp"/>
+        <Spinner
+            android:id="@+id/spinner_frecuencyoftakemedicine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="selecciona_la fecuencia de toma"
+            android:theme="@style/SpinnerTextStyle" />
+    </LinearLayout>
+
+    <!-- Campo de frecuencia personalizado (oculto por defecto) -->
     <EditText
         android:id="@+id/etMedicationFrequency"
         android:layout_width="match_parent"
@@ -55,24 +163,46 @@
         android:hint="Frecuencia (ej. Cada 8 horas)"
         android:importantForAccessibility="yes"
         android:inputType="text"
-        android:visibility="gone" />
-
-    <Spinner
-        android:id="@+id/spinner_frecuencyoftakemedicine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="selecciona_la fecuencia de toma"
-        android:theme="@style/SpinnerTextStyle" />
-
-    <Spinner
-        android:id="@+id/spinner_frecuencyoftakemedicineexactday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="selecciona_el dia"
-        android:textSize="22sp"
         android:visibility="gone"
-        android:theme="@style/SpinnerTextStyle"/>
+        android:textSize="22sp" />
+
+    <!-- Spinner de día de la semana alineado con FRECUENCIA -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <!-- Espacio igual al ancho del TextView "FRECUENCIA" más su margen -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FRECUENCIA"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:visibility="invisible"
+            android:layout_marginEnd="12dp"/>
+        <Spinner
+            android:id="@+id/spinner_frecuencyoftakemedicineexactday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="selecciona_el dia"
+            android:textSize="22sp"
+            android:visibility="gone"
+            android:theme="@style/SpinnerTextStyle"/>
+    </LinearLayout>
+
+    <!-- FRANJA HORARIA -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/back_Text"
+        android:text="FRANJA HORARIA"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <Switch
         android:id="@+id/etMedicationBreakfast"
@@ -87,7 +217,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="MEDIA MAÑANA"
+        android:text="MEDIO DÍA"
         android:textSize="22sp" />
 
     <Switch
@@ -114,7 +244,6 @@
         android:text="CENA"
         android:textSize="22sp" />
 
-
     <Button
         android:id="@+id/btnSaveMedication"
         android:layout_width="match_parent"
@@ -122,10 +251,10 @@
         android:layout_marginTop="40dp"
         android:fontFamily="sans-serif-medium"
         android:text="GUARDAR MEDICAMENTO"
+        android:backgroundTint="@color/ButtonColorActivity"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="20sp" />
-
 
     <!-- Botón para guardar el medicamento -->
 

@@ -3,6 +3,7 @@ package com.medialert.medinotiapp.ui.activities.notebooks
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -28,7 +29,8 @@ class NotebooksActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notebooks)
-
+       // val emptyState = findViewById<TextView>(R.id.emptyState)
+       // val recyclerView = findViewById<RecyclerView>(R.id.recyclerNotebooks)
         // Inicializar la base de datos
         database = MedinotiappDatabase.getDatabase(this)
 
@@ -72,13 +74,22 @@ class NotebooksActivity : AppCompatActivity() {
                 // Actualizar el adaptador en el hilo principal
                 launch(Dispatchers.Main) {
                     adapter.submitList(notebooks)
+                    val emptyState = findViewById<TextView>(R.id.emptyState)
+                    val recyclerView = findViewById<RecyclerView>(R.id.recyclerNotebooks)
+                    if (notebooks.isEmpty()) {
+                        emptyState.visibility = android.view.View.VISIBLE
+                        recyclerView.visibility = android.view.View.GONE
+                    } else {
+                        emptyState.visibility = android.view.View.GONE
+                        recyclerView.visibility = android.view.View.VISIBLE
+                    }
                 }
             }
         }
     }
 
     private fun viewNotebook(notebook: Notebook) {
-        Toast.makeText(this, "Ver libreta: ${notebook.name}", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Ver libreta: ${notebook.name}", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, NotebookDetailsActivity::class.java)
         intent.putExtra("NOTEBOOK_ID", notebook.id)
         startActivity(intent)
@@ -99,6 +110,7 @@ class NotebooksActivity : AppCompatActivity() {
             .setNegativeButton("Cancelar", null)
             .show()
     }
+
 
     private fun showAddNotebookDialog() {
         val input = EditText(this).apply {
@@ -125,4 +137,5 @@ class NotebooksActivity : AppCompatActivity() {
             .setNegativeButton("Cancelar", null)
             .show()
     }
+
 }

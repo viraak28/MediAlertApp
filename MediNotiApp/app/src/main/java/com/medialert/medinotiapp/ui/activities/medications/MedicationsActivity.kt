@@ -145,6 +145,11 @@ class MedicationsActivity : AppCompatActivity() {
                         medications.addAll(medicationsList)
                         adapter.notifyDataSetChanged()
                     }
+                    if (medications.isEmpty()) {
+                        showEmptyState()
+                    } else {
+                        hideEmptyState()
+                    }
                 }
             } else {
                 // Maneja el caso en que no hay sesión activa
@@ -297,5 +302,15 @@ class MedicationsActivity : AppCompatActivity() {
     companion object {
         private const val ADD_MEDICATION_REQUEST_CODE = 1
         private const val EDIT_MEDICATION_REQUEST_CODE = 2
+    }
+
+    private fun showEmptyState() {
+        binding.recyclerViewMedications.visibility = android.view.View.GONE
+        binding.emptyState.visibility = android.view.View.VISIBLE
+    }
+
+    private fun hideEmptyState() {
+        binding.recyclerViewMedications.visibility = android.view.View.VISIBLE
+        binding.emptyState.visibility = android.view.View.GONE
     }
 }

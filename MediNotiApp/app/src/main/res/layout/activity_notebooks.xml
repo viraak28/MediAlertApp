@@ -6,19 +6,41 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.NotebooksActivity">
+    tools:context=".ui.activities.notebooks.NotebookDetailsActivity">
 
-    <!-- RecyclerView para mostrar la lista de libretas -->
-
-    <!-- Botón flotante para añadir una nueva libreta -->
+    <TextView
+        android:id="@+id/tvUserName"
+        style="@style/AppTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Mis Libretas"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
+    <TextView
+        android:id="@+id/emptyState"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:text="No hay libretas creadas"
+        android:textSize="22sp"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerNotebooks"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:padding="8dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tvUserName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_notebook" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,6 +51,7 @@
         android:layout_marginBottom="40dp"
         android:clickable="true"
         android:contentDescription="Añadir libreta"
+        android:backgroundTint="@color/ButtonADD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />

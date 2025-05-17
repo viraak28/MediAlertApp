@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+    <TextView
+        android:id="@+id/tvCorreo_txt"
+        style="@style/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Correo electronico"
+        android:backgroundTint="@color/back_Text"
+        android:background="@drawable/border"
+        android:gravity="center"/>
 
     <EditText
         android:id="@+id/etCorreo"
@@ -12,7 +23,17 @@
         android:layout_height="wrap_content"
         android:hint="Correo electrónico"
         android:inputType="textEmailAddress" />
-
+    <TextView
+        android:id="@+id/Pass_txt"
+        style="@style/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Contraseña actual"
+        android:backgroundTint="@color/back_Text"
+        android:background="@drawable/border"
+        android:gravity="center"/>
     <EditText
         android:id="@+id/etContrasenaActual"
         android:layout_width="match_parent"
@@ -20,6 +41,17 @@
         android:layout_marginTop="8dp"
         android:hint="Contraseña actual"
         android:inputType="textPassword" />
+    <TextView
+        android:id="@+id/NewPass_txt"
+        style="@style/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Nueva contraseña"
+        android:backgroundTint="@color/back_Text"
+        android:background="@drawable/border"
+        android:gravity="center"/>
 
     <EditText
         android:id="@+id/etNuevaContrasena"
@@ -28,6 +60,17 @@
         android:layout_marginTop="8dp"
         android:hint="Nueva contraseña"
         android:inputType="textPassword" />
+    <TextView
+        android:id="@+id/ConfirmPass_txt"
+        style="@style/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Confirmar nueva contraseña"
+        android:backgroundTint="@color/back_Text"
+        android:background="@drawable/border"
+        android:gravity="center"/>
 
     <EditText
         android:id="@+id/etConfirmarNuevaContrasena"
@@ -42,6 +85,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Cambiar contraseña" />
+        android:text="Cambiar contraseña"
+        android:textSize="20sp"
+        android:backgroundTint="@color/bigbuttonColor"/>
 
 </LinearLayout>

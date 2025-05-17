@@ -5,20 +5,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+    <TextView
+        android:id="@+id/tvCorreo_txt"
+        style="@style/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Correo electronico"
+        android:backgroundTint="@color/back_Text"
+        android:background="@drawable/border"
+        android:gravity="center"/>
 
     <EditText
         android:id="@+id/etCorreo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Correo electrónico"
+
+        android:gravity="center"
         android:inputType="textEmailAddress" />
+    <TextView
+        android:id="@+id/Pass_txt"
+        style="@style/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Contraseña"
+        android:backgroundTint="@color/back_Text"
+        android:background="@drawable/border"
+        android:gravity="center"/>
 
     <EditText
         android:id="@+id/etContrasena"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Contraseña"
+
+        android:gravity="center"
         android:inputType="textPassword" />
 
     <Button
@@ -26,6 +50,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textSize="20sp"
+        android:backgroundTint="@color/bigbuttonColor"
         android:text="Iniciar sesión" />
 
     <Button
@@ -33,6 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:backgroundTint="@color/bigbuttonColor"
         android:text="Cambiar contraseña" />
 
     <Button
@@ -40,6 +68,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:backgroundTint="@color/bigbuttonColor"
         android:text="Registrar nuevo usuario" />
 
 </LinearLayout>

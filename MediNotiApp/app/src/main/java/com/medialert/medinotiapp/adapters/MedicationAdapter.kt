@@ -37,7 +37,7 @@ open class MedicationAdapter(
                 binding.root.radius = 4f // Reducir el radio de las esquinas
                 binding.root.cardElevation = 2f // Reducir la elevación de la CardView
             } else {
-                binding.btnTakeMedication.visibility = if (onTakeClick != null) View.VISIBLE else View.GONE
+               // binding.btnTakeMedication.visibility = if (onTakeClick != null) View.VISIBLE else View.GONE
                 binding.btnEditMedication.visibility = if (onEditClick != null) View.VISIBLE else View.GONE
                 binding.btnDelete.visibility = if (onDeleteClick != null) View.VISIBLE else View.GONE
 

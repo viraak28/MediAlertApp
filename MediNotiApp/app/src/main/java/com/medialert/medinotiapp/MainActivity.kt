@@ -1,7 +1,9 @@
 package com.medialert.medinotiapp
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,8 @@ import com.medialert.medinotiapp.ui.activities.reminders.NotiConfigActivity
 import com.medialert.medinotiapp.ui.activities.notebooks.NotebooksActivity
 import com.medialert.medinotiapp.ui.activities.users.PerfilActivity
 import com.medialert.medinotiapp.utils.SessionManager
+import com.medialert.medinotiapp.utils.TooltipHelper.showTooltipDialog
+//import com.medialert.medinotiapp.utils.TooltipHelper.showCustomTooltip
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -81,15 +85,51 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "No hay sesión activa", Toast.LENGTH_SHORT).show()
             }
         }
+        binding.btnPerfil.setOnLongClickListener {
+            showTooltipDialog(
+                context = it.context,
+                anchorView = it,
+                text = "Datos Perfil"
+            )
+            true
+        }
+
 
         binding.btnMedications.setOnClickListener {
             val intent = Intent(this, MedicationsActivity::class.java)
             startActivity(intent)
         }
+        binding.btnMedications.setOnLongClickListener {
+            showTooltipDialog(
+                context = it.context,
+                anchorView = it,
+                text = "Registro de la medicacion por usuario"
+            )
+            true
+        }
 
         binding.btnDay.setOnClickListener {
             val intent = Intent(this, DailyMedicationsActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.btnDay.setOnLongClickListener {
+//            showCustomTooltip(
+//                context = this,
+//                anchorView = it,
+//                text = "Medicación que se debe tomar hoy",
+//                textSize = 20f,
+//                //backgroundColor = Color.parseColor("#4CAF50")
+//                backgroundColor = R.color.white,
+//                textColor = R.color.tooltip
+//            )
+//            true
+            showTooltipDialog(
+                context = it.context,
+                anchorView = it,
+                text = "Medicación que se debe tomar hoy"
+            )
+            true
         }
 
         binding.btnReminders.setOnClickListener {
@@ -98,20 +138,46 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnLogout.setOnClickListener {
-            sessionManager.clearSession()
-            val intent = Intent(this, SplashScreenActivity::class.java)
-            startActivity(intent)
-            finish()
+//            sessionManager.clearSession()
+//            val intent = Intent(this, SplashScreenActivity::class.java)
+//            startActivity(intent)
+//            finish()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Cerrar sesión")
+            builder.setMessage("¿Estás seguro de continuar?")
+            builder.setPositiveButton("Sí") { _, _ ->
+                // Acción si se confirma
+                sessionManager.clearSession()
+                val intent = Intent(this, SplashScreenActivity::class.java)
+                startActivity(intent)
+                finish()
+                println("Se ha confirmado")
+            }
+            builder.setNegativeButton("No") { _, _ ->
+                // Acción si se cancela
+                println("Se ha cancelado")
+            }
+            builder.show()
         }
     }
 
     private fun setupWeekButton() {
         val weekRange = getWeekRange()
-        binding.txtWeekRange.text = weekRange
+        binding.txtWeekRange.text = "MEDICACION:"+ weekRange
 
         binding.btnWeek.setOnClickListener {
             val intent = Intent(this, WeeklyMedicationsActivity::class.java)
             startActivity(intent)
+        }
+        binding.btnWeek.setOnLongClickListener {
+            showTooltipDialog(
+                context = it.context,
+                anchorView = it,
+                text = "Aqui se puede ver la medicacion por dia de la semana actual.\n" +
+                        "Tambien puede seleccionar la semana que desee ver. "
+
+            )
+            true
         }
     }
 
@@ -119,6 +185,16 @@ class MainActivity : AppCompatActivity() {
         binding.btnNotebook.setOnClickListener {
             val intent = Intent(this, NotebooksActivity::class.java)
             startActivity(intent)
+        }
+        binding.btnNotebook.setOnLongClickListener {
+            showTooltipDialog(
+                context = it.context,
+                anchorView = it,
+                text = "Aqui se anotar lo que necesites realizar seguimiento.\n" +
+                        "Puedes crear varias para tenerlo organizado. "
+
+            )
+            true
         }
     }
 

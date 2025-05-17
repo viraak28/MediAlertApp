@@ -168,7 +168,7 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
         val endOfWeek = currentWeekStart.clone() as Calendar
         endOfWeek.add(Calendar.DAY_OF_WEEK, 6)
 
-        binding.txtWeekRange.text = "${dateFormat.format(currentWeekStart.time)} - ${dateFormat.format(endOfWeek.time)}"
+        binding.txtWeekRange.text ="${dateFormat.format(currentWeekStart.time)} - ${dateFormat.format(endOfWeek.time)}"
     }
 
     private fun getStartOfWeek(calendar: Calendar): Calendar {

@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="tooltip">#FFFFFF</color>
+    <color name="bigbuttonColor">#80EDDE</color>
+    <color name="smallbuttonColor">#84B9BC</color>
+    <color name="ButtonColorActivity">#7A64B2BC</color>
+    <color name="ButtonADD">#2A8ED5</color>
+    <color name="back_Text">#73034A64</color>
+    <color name="card_view">#E1F2EB</color>
 </resources>

@@ -7,10 +7,10 @@
     android:padding="16dp">
 
     <TextView
+        style="@style/AppTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Seleccione su cuenta"
-        android:textSize="18sp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Registrar nuevo usuario" />
+        android:text="Registrar nuevo usuario"
+        android:backgroundTint="@color/ButtonColorActivity"/>
 
 </LinearLayout>
