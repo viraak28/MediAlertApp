@@ -22,6 +22,7 @@ class EditMedicationActivity : AppCompatActivity() {
     private var medicationId: Int = -1
     private lateinit var medicationDatabase: MedinotiappDatabase
     private lateinit var sessionManager: SessionManager
+    private lateinit var freqexactOp: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +32,7 @@ class EditMedicationActivity : AppCompatActivity() {
         medicationDatabase = MedinotiappDatabase.getDatabase(this)
         sessionManager = SessionManager(this)
 
-        // Obtener los datos del medicamento a editar
+        // Obtener datos del medicamento
         medicationId = intent.getIntExtra("MEDICATION_ID", -1)
         val medicationName = intent.getStringExtra("MEDICATION_NAME") ?: ""
         val medicationDosage = intent.getStringExtra("MEDICATION_DOSAGE") ?: ""
@@ -43,133 +44,125 @@ class EditMedicationActivity : AppCompatActivity() {
         val newMedicationLunch = intent.getBooleanExtra("MEDICATION_lunch", false)
         val newMedicationSnacking = intent.getBooleanExtra("MEDICATION_snacking", false)
         val newMedicationDinner = intent.getBooleanExtra("MEDICATION_dinner", false)
-
         val newMedicationfrecuencyOfTakeMedicine = intent.getStringExtra("MEDICATION_frecuencyOfTakeMedicine") ?: ""
         val newMedicationfrecuencyOfTakeMedicineExactDay = intent.getStringExtra("MEDICATION_frecuencyOfTakeMedicineExactDay") ?: ""
+        freqexactOp = newMedicationfrecuencyOfTakeMedicineExactDay
 
         // Establecer los valores en los campos de edición
         binding.etMedicationName.setText(medicationName)
         binding.etMedicationDosage.setText(medicationDosage)
         binding.etMedicationFrequency.setText(medicationFrequency)
 
+        // ¡Cargar correctamente los switches!
         binding.etMedicationBreakfast.isChecked = newMedicationBreakfast
-        binding.etMedicationMidMonning.isChecked =newMedicationMidMorning
+        binding.etMedicationMidMonning.isChecked = newMedicationMidMorning
         binding.etMedicationLunch.isChecked = newMedicationLunch
         binding.etMedicationSnacking.isChecked = newMedicationSnacking
         binding.etMedicationDinner.isChecked = newMedicationDinner
-        //  Spinners
-        setupSpinners(newMedicationDosageQuantity.toString(),newMedicationAdministrationType.toString(),
+
+        // Configurar Spinners
+        setupSpinners(
+            newMedicationDosageQuantity.orEmpty(),
+            newMedicationAdministrationType.orEmpty(),
             newMedicationfrecuencyOfTakeMedicine,
-            newMedicationfrecuencyOfTakeMedicineExactDay)
+            newMedicationfrecuencyOfTakeMedicineExactDay
+        )
+
+        // Forzar actualización inicial del Spinner secundario
+        binding.spinnerFrecuencyoftakemedicine.post {
+            binding.spinnerFrecuencyoftakemedicine.setSelection(
+                binding.spinnerFrecuencyoftakemedicine.selectedItemPosition
+            )
+        }
 
         setupSaveButton()
     }
-    private fun setupSpinners(dosage_op: String,admin_op:String,freq_op:String,freqexact_op:String) {
-        // Configuracion  Spinner dosage_options
 
-        val dosageAdapter = ArrayAdapter.createFromResource(
+    private fun setupSpinners(
+        dosageOp: String,
+        adminOp: String,
+        freqOp: String,
+        freqexactOp: String
+    ) {
+        // Configuración inicial de los Spinners
+        setupDosageSpinner(dosageOp)
+        setupAdministrationSpinner(adminOp)
+        setupFrequencySpinners(freqOp, freqexactOp)
+    }
+
+    private fun setupDosageSpinner(dosageOp: String) {
+        ArrayAdapter.createFromResource(
             this,
             R.array.dosage_options,
             R.layout.item_spinner
-        )
-        dosageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerDosage.adapter = dosageAdapter
-        val indice = dosageAdapter.getPosition(dosage_op)
-        if (indice != -1) {
-            binding.spinnerDosage.setSelection(indice)
-        } else {
-            println("Valor no encontrado en el Spinner")
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerDosage.adapter = this
+            setSelectionSafe(dosageOp, binding.spinnerDosage)
         }
-        // Config administration_options
-        val administrationAdapter = ArrayAdapter.createFromResource(
+    }
+
+    private fun setupAdministrationSpinner(adminOp: String) {
+        ArrayAdapter.createFromResource(
             this,
             R.array.administration_options,
             R.layout.item_spinner
-        )
-        administrationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerAdministration.adapter = administrationAdapter
-        val indice2 = administrationAdapter.getPosition(admin_op)
-        if (indice2 != -1) {
-            binding.spinnerAdministration.setSelection(indice2)
-        } else {
-            println("Valor no encontrado en el Spinner")
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerAdministration.adapter = this
+            setSelectionSafe(adminOp, binding.spinnerAdministration)
         }
-        // Config frecuencyoftakemedicine
-        val frecuencyoftakemedicineAdapter = ArrayAdapter.createFromResource(
+    }
+
+    private fun setupFrequencySpinners(freqOp: String, freqexactOp: String) {
+        // Spinner principal de frecuencia
+        ArrayAdapter.createFromResource(
             this,
             R.array.frecuencyoftakemedicine,
             R.layout.item_spinner
-        )
-        frecuencyoftakemedicineAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerFrecuencyoftakemedicine.adapter = frecuencyoftakemedicineAdapter
-        val indice3 = frecuencyoftakemedicineAdapter.getPosition(freq_op)
-        if (indice3 != -1) {
-            binding.spinnerFrecuencyoftakemedicine.setSelection(indice3)
-        } else {
-            println("Valor no encontrado en el Spinner")
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerFrecuencyoftakemedicine.adapter = this
+            setSelectionSafe(freqOp, binding.spinnerFrecuencyoftakemedicine)
         }
 
-        // Config frecuencyoftakemedicineexactday
-        val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.emptyArray,
-            R.layout.item_spinner
-        )
-        frecuencyoftakemedicineexactdayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerFrecuencyoftakemedicineexactday.adapter = frecuencyoftakemedicineexactdayadapter
-
-        // Agregar listener para cambiar el contenido y visibilidad del segundo Spinner
+        // Listener para actualizar Spinner secundario
         binding.spinnerFrecuencyoftakemedicine.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val textoSeleccionado = parent?.getItemAtPosition(position).toString()
-                when (textoSeleccionado) {
-                    "Bisemanal" -> {
-                        val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
-                            this@EditMedicationActivity,
-                            R.array.frecuencyofweek,
-                            R.layout.item_spinner)
-                        frecuencyoftakemedicineexactdayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
-                        binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.VISIBLE
-
-                    }
-                    "Semanal" -> {
-                        val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
-                            this@EditMedicationActivity,
-                            R.array.frecuencyofweek,
-                            R.layout.item_spinner)
-                        frecuencyoftakemedicineexactdayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        binding.spinnerFrecuencyoftakemedicineexactday.adapter  = frecuencyoftakemedicineexactdayadapter
-                        binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.VISIBLE
-                    }
-                    "Mensual" -> {
-                        val frecuencyoftakemedicineexactdayadapter = ArrayAdapter.createFromResource(
-                            this@EditMedicationActivity,
-                            R.array.frecuencyofmonth,
-                            R.layout.item_spinner)
-                        binding.spinnerFrecuencyoftakemedicineexactday.adapter = frecuencyoftakemedicineexactdayadapter
-                        binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.VISIBLE
-                    }
-                    else -> {
-                        binding.spinnerFrecuencyoftakemedicineexactday.visibility = View.GONE
-                    }
-                }
+                updateExactDaySpinner(parent?.getItemAtPosition(position).toString())
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // No se ha seleccionado nada
-            }
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
 
-            // Seleccionar el valor exacto del día si existe
-            val indiceExactDay = frecuencyoftakemedicineexactdayadapter.getPosition(freqexact_op)
-            if (indiceExactDay != -1) {
-                binding.spinnerFrecuencyoftakemedicineexactday.setSelection(indiceExactDay)
-            } else {
-                println("Valor no encontrado en el Spinner exacto del día")
-            }
+    private fun updateExactDaySpinner(selectedFrequency: String) {
+        val arrayRes = when (selectedFrequency) {
+            "Bisemanal", "Semanal" -> R.array.frecuencyofweek
+            "Mensual" -> R.array.frecuencyofmonth
+            else -> R.array.emptyArray
         }
 
+        ArrayAdapter.createFromResource(
+            this,
+            arrayRes,
+            R.layout.item_spinner
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerFrecuencyoftakemedicineexactday.adapter = this
+            setSelectionSafe(freqexactOp, binding.spinnerFrecuencyoftakemedicineexactday)
+
+            binding.spinnerFrecuencyoftakemedicineexactday.visibility =
+                if (arrayRes != R.array.emptyArray) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun setSelectionSafe(value: String, spinner: android.widget.Spinner) {
+        (spinner.adapter as? ArrayAdapter<String>)?.let { adapter ->
+            val position = adapter.getPosition(value)
+            if (position != -1) spinner.setSelection(position)
+        }
+    }
 
     private fun setupSaveButton() {
         binding.btnSaveMedication.setOnClickListener {
@@ -183,10 +176,9 @@ class EditMedicationActivity : AppCompatActivity() {
         val frequency = binding.etMedicationFrequency.text.toString().trim()
         val dosageQuantity = binding.spinnerDosage.selectedItem.toString()
         val administrationType = binding.spinnerAdministration.selectedItem.toString()
-
         val frecuencyOfTakeMedicine = binding.spinnerFrecuencyoftakemedicine.selectedItem.toString()
         val frecuencyOfTakeMedicineExactDay = binding.spinnerFrecuencyoftakemedicineexactday.selectedItem.toString()
-        // Checkboxes
+        // Switches
         val breakfast = binding.etMedicationBreakfast.isChecked
         val midMorning = binding.etMedicationMidMonning.isChecked
         val lunch = binding.etMedicationLunch.isChecked
@@ -199,7 +191,6 @@ class EditMedicationActivity : AppCompatActivity() {
 
         if (checkEmptyVal  && checkEmptySpinner && (breakfast || midMorning || lunch || snacking || dinner)) {
             lifecycleScope.launch(Dispatchers.IO) {
-                // Actualizar el medicamento en la base de datos
                 val medicationDao = medicationDatabase.medicationDao()
                 val medication = medicationDao.getMedicationById(medicationId)
                 if (medication != null && medication.userId == sessionManager.getUserId()) {
@@ -209,7 +200,7 @@ class EditMedicationActivity : AppCompatActivity() {
                     medication.frequency = frequency
                     medication.frecuencyOfTakeMedicine = frecuencyOfTakeMedicine
                     medication.frecuencyOfTakeMedicineExactDay = frecuencyOfTakeMedicineExactDay
-                    medication.dosageQuantity =dosageQuantity
+                    medication.dosageQuantity = dosageQuantity
                     medication.breakfast = breakfast
                     medication.midMorning = midMorning
                     medication.lunch = lunch
@@ -217,7 +208,6 @@ class EditMedicationActivity : AppCompatActivity() {
                     medication.snacking = snacking
                     medicationDao.update(medication)
 
-                    // Enviar los datos actualizados a MedicationsActivity
                     val resultIntent = Intent().apply {
                         putExtra("MEDICATION_ID", medicationId)
                         putExtra("MEDICATION_NAME", name)
@@ -225,11 +215,11 @@ class EditMedicationActivity : AppCompatActivity() {
                         putExtra("MEDICATION_FREQUENCY", frequency)
                         putExtra("MEDICATION_dosageQuantity", dosageQuantity)
                         putExtra("MEDICATION_administrationType", administrationType)
-//                        putExtra("MEDICATION_breakfast", breakfast)
-//                        putExtra("MEDICATION_midMorning", midMorning)
-//                        putExtra("MEDICATION_lunch", lunch)
-//                        putExtra("MEDICATION_snacking", snacking)
-//                        putExtra("MEDICATION_dinner", dinner)
+                        putExtra("MEDICATION_breakfast", breakfast)
+                        putExtra("MEDICATION_midMorning", midMorning)
+                        putExtra("MEDICATION_lunch", lunch)
+                        putExtra("MEDICATION_snacking", snacking)
+                        putExtra("MEDICATION_dinner", dinner)
                         putExtra("MEDICATION_frecuencyOfTakeMedicine", frecuencyOfTakeMedicine)
                         putExtra("MEDICATION_frecuencyOfTakeMedicineExactDay", frecuencyOfTakeMedicineExactDay)
                     }
@@ -253,7 +243,6 @@ class EditMedicationActivity : AppCompatActivity() {
         else {
             showError("Por favor, complete todos los campos")
         }
-
     }
 
     private fun showError(message: String) {
