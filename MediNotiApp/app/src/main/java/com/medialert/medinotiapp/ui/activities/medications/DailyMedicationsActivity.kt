@@ -42,10 +42,10 @@ class DailyMedicationsActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         adapter = MedicationAdapter(
             medications,
-            onTakeClick = null,  // Deshabilitar acción "Tomar"
-            onEditClick = null,  // Deshabilitar edición
-            onItemClick = null,  // Deshabilitar clic en ítems
-            onDeleteClick = null, // Deshabilitar eliminación
+            onTakeClick = null,
+            onEditClick = null,
+            onItemClick = null,
+            onDeleteClick = null,
             isDailyView = true
         )
 
@@ -63,10 +63,6 @@ class DailyMedicationsActivity : AppCompatActivity() {
                     val todayMedications = filterMedicationsForToday(allMedications)
                     val groupedItems = groupMedicationsByMeal(todayMedications)
                     withContext(Dispatchers.Main) {
-//                        medications.clear()
-//                        medications.addAll(todayMedications)
-//                        adapter.notifyDataSetChanged()
-
                         val adapter = DailyAdapter(
                             groupedItems,
                             onTakeClick = { medication -> showMedicationTaken(medication) },
@@ -74,14 +70,8 @@ class DailyMedicationsActivity : AppCompatActivity() {
                         )
                         binding.recyclerViewDailyMedications.adapter = adapter
                         adapter.notifyDataSetChanged()
-                        if (groupedItems.isEmpty()) showEmptyState()
-                        else hideEmptyState()
 
-//                        if (medications.isEmpty()) {
-//                            showEmptyState()
-//                        } else {
-//                            hideEmptyState()
-//                        }
+                        if (groupedItems.isEmpty()) showEmptyState() else hideEmptyState()
                     }
                 }
             }
@@ -91,12 +81,15 @@ class DailyMedicationsActivity : AppCompatActivity() {
     private fun filterMedicationsForToday(medications: List<Medication>): List<Medication> {
         val calendar = Calendar.getInstance()
         val today = calendar.get(Calendar.DAY_OF_WEEK)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR)
 
         return medications.filter { medication ->
             when (medication.frecuencyOfTakeMedicine) {
                 "Diaria" -> true
                 "Semanal" -> isTodayInSelectedDays(medication, today)
-                //"Mensual" -> isTodayInSelectedDays(medication, today)
+                "Bisemanal" -> isTodayInBiweeklySchedule(medication, today, weekOfYear)
+                "Mensual" -> isDayInMonthlySchedule(medication, dayOfMonth)
                 else -> false
             }
         }
@@ -113,8 +106,29 @@ class DailyMedicationsActivity : AppCompatActivity() {
             Calendar.SUNDAY -> "Domingo"
             else -> ""
         }
-
         return medication.frecuencyOfTakeMedicineExactDay.contains(todayName, ignoreCase = true)
+    }
+
+    private fun isTodayInBiweeklySchedule(medication: Medication, today: Int, weekOfYear: Int): Boolean {
+        val todayName = when (today) {
+            Calendar.MONDAY -> "Lunes"
+            Calendar.TUESDAY -> "Martes"
+            Calendar.WEDNESDAY -> "Miércoles"
+            Calendar.THURSDAY -> "Jueves"
+            Calendar.FRIDAY -> "Viernes"
+            Calendar.SATURDAY -> "Sábado"
+            Calendar.SUNDAY -> "Domingo"
+            else -> ""
+        }
+
+        val isEvenWeek = weekOfYear % 2 == 0
+        val dayPattern = if (isEvenWeek) "$todayName (par)" else "$todayName (impar)"
+
+        return medication.frecuencyOfTakeMedicineExactDay.contains(dayPattern, ignoreCase = true)
+    }
+
+    private fun isDayInMonthlySchedule(medication: Medication, dayOfMonth: Int): Boolean {
+        return medication.frecuencyOfTakeMedicineExactDay.contains("Dia $dayOfMonth", ignoreCase = true)
     }
 
     private fun showEmptyState() {
@@ -137,23 +151,24 @@ class DailyMedicationsActivity : AppCompatActivity() {
             "Cena" to { m: Medication -> m.dinner }
         )
 
-        for ((meal, predicate) in mealMap) {
-            val medsForMeal = medications.filter(predicate)
-            if (medsForMeal.isNotEmpty()) {
+        mealMap.forEach { (meal, predicate) ->
+            medications.filter(predicate).takeIf { it.isNotEmpty() }?.let {
                 result.add(DailyItem.Header(meal))
-                result.addAll(medsForMeal.map { DailyItem.Med(it) })
+                result.addAll(it.map { med -> DailyItem.Med(med) })
             }
         }
         return result
     }
+
     private fun showMedicationTaken(medication: Medication) {
         lifecycleScope.launch {
             medicationDatabase.medicationDao().insertTake(Take(medicationId = medication.id))
             Snackbar.make(binding.root, "Medicamento ${medication.name} tomado", Snackbar.LENGTH_SHORT).show()
         }
     }
+
     private fun showMedicationDetails(medication: Medication) {
-        val intent = Intent(this, MedicationDetailActivity::class.java).apply {
+        Intent(this, MedicationDetailActivity::class.java).apply {
             putExtra("MEDICATION_ID", medication.id)
             putExtra("MEDICATION_NAME", medication.name)
             putExtra("MEDICATION_DOSAGE", medication.dosage)
@@ -162,8 +177,6 @@ class DailyMedicationsActivity : AppCompatActivity() {
             putExtra("MEDICATION_dosageQuantity", medication.dosageQuantity)
             putExtra("MEDICATION_frecuencyOfTakeMedicine", medication.frecuencyOfTakeMedicine)
             putExtra("MEDICATION_frecuencyOfTakeMedicineExactDay", medication.frecuencyOfTakeMedicineExactDay)
-        }
-        startActivity(intent)
+        }.also { startActivity(it) }
     }
-
 }

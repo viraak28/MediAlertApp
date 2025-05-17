@@ -32,6 +32,7 @@ class AddMedicationActivity : AppCompatActivity() {
         medicationDatabase = MedinotiappDatabase.getDatabase(this)
         sessionManager = SessionManager(this)
 
+
         // Configurar los Spinners
         setupSpinners()
 
@@ -140,7 +141,7 @@ class AddMedicationActivity : AppCompatActivity() {
         val snacking = binding.etMedicationSnacking.isChecked
         val dinner = binding.etMedicationDinner.isChecked
 
-        if (name.isNotEmpty() && dosage.isNotEmpty()) {
+        if (name.isNotEmpty() && dosage.isNotEmpty() && (breakfast || midMorning || lunch || snacking || dinner)) {
             lifecycleScope.launch(Dispatchers.IO) {
                 val userId = sessionManager.getUserId()
                 if (userId != -1) {
@@ -168,7 +169,16 @@ class AddMedicationActivity : AppCompatActivity() {
                     showError("No hay sesión activa")
                 }
             }
-        } else {
+        } else if (!(name.isNotEmpty() )){
+            showError("Por favor, complete el nombre")
+        }
+        else if (!( dosage.isNotEmpty())){
+            showError("Por favor, complete la dosis")
+        }
+        else if (!(breakfast || midMorning || lunch || snacking || dinner)){
+            showError("Por favor, seleccione una franja horaria")
+        }
+        else {
             showError("Por favor, complete todos los campos")
         }
     }

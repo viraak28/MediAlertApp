@@ -20,7 +20,7 @@
             android:layout_marginEnd="12dp"
             android:text="MEDICACIÓN POR DIA EN LA SEMANA:"
             android:textSize="22sp"
-            android:textStyle="bold"/>  
+            android:textStyle="bold"/>
 
     </LinearLayout>
     <!-- Encabezado con flechas y rango de fechas -->
@@ -70,6 +70,14 @@
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         android:padding="8dp"
-        tools:listitem="@layout/item_medication" />
+        tools:listitem="@layout/item_medication_daily" />
+    <TextView
+        android:id="@+id/emptyState"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="No hay medicamentos para hoy 🎉"
+        android:textSize="18sp"
+        android:visibility="gone" />
 
 </LinearLayout>

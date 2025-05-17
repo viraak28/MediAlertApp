@@ -197,7 +197,7 @@ class EditMedicationActivity : AppCompatActivity() {
         val checkEmptySpinner = dosageQuantity.isNotEmpty() && administrationType.isNotEmpty()
                 && frecuencyOfTakeMedicine.isNotEmpty()
 
-        if (checkEmptyVal  && checkEmptySpinner) {
+        if (checkEmptyVal  && checkEmptySpinner && (breakfast || midMorning || lunch || snacking || dinner)) {
             lifecycleScope.launch(Dispatchers.IO) {
                 // Actualizar el medicamento en la base de datos
                 val medicationDao = medicationDatabase.medicationDao()
@@ -241,9 +241,19 @@ class EditMedicationActivity : AppCompatActivity() {
                     finish()
                 }
             }
-        } else {
+        }  else if (!(name.isNotEmpty() )){
+            showError("Por favor, complete el nombre")
+        }
+        else if (!( dosage.isNotEmpty())){
+            showError("Por favor, complete la dosis")
+        }
+        else if (!(breakfast || midMorning || lunch || snacking || dinner)){
+            showError("Por favor, seleccione una franja horaria")
+        }
+        else {
             showError("Por favor, complete todos los campos")
         }
+
     }
 
     private fun showError(message: String) {

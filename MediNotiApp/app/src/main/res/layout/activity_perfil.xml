@@ -117,6 +117,18 @@
                 android:paddingStart="16dp"
                 android:drawablePadding="8dp"
                 android:textSize="24sp" />
+            <Button
+                android:id="@+id/btnExportCalendarTake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/ButtonColorActivity"
+                android:text="Exportar Calendario de Medicamentos y Tomas"
+                android:textStyle="bold"
+                android:drawableStart="@android:drawable/ic_menu_share"
+                android:paddingStart="16dp"
+                android:drawablePadding="8dp"
+                android:textSize="24sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

@@ -20,7 +20,7 @@
     <string-array name="frecuencyoftakemedicine">
     <item>Diaria</item>
     <item>Semanal</item>
-    <item>Bisemanal    </item>
+    <!--<item>Bisemanal </item>-->
     <item>Mensual</item>
     </string-array>
     <string-array name="emptyArray">

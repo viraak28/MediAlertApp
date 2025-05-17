@@ -89,7 +89,6 @@ class NotebooksActivity : AppCompatActivity() {
     }
 
     private fun viewNotebook(notebook: Notebook) {
-        //Toast.makeText(this, "Ver libreta: ${notebook.name}", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, NotebookDetailsActivity::class.java)
         intent.putExtra("NOTEBOOK_ID", notebook.id)
         startActivity(intent)

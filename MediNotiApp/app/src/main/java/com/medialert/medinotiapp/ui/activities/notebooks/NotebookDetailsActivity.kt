@@ -48,6 +48,11 @@ class NotebookDetailsActivity : AppCompatActivity() {
         setupFab()
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadNotesForCurrentWeek()
+    }
+
     private fun setupViews() {
         tvWeekRange = findViewById(R.id.txtWeekRange)
         btnPreviousWeek = findViewById(R.id.btnPreviousWeek)

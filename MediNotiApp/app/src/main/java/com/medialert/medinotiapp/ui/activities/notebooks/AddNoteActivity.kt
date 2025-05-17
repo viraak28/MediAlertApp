@@ -55,8 +55,7 @@ class AddNoteActivity : AppCompatActivity() {
             )
             database.noteDao().insert(note)
             runOnUiThread {
-                Toast.makeText(this@AddNoteActivity, "Nota añadida correctamente", Toast.LENGTH_SHORT).show()
-                finish() // Finalizar la actividad y volver a NotebookDetailsActivity
+                finish()
             }
         }
     }

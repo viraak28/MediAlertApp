@@ -31,4 +31,5 @@ interface MedicationDao {
 
     @Query("SELECT * FROM takes WHERE medicationId = :medicationId")
     fun getTakesForMedication(medicationId: Int): Flow<List<Take>>
+
 }

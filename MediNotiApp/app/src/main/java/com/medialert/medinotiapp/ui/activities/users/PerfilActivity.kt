@@ -15,6 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityPerfilBinding
 import com.medialert.medinotiapp.models.Medication
+import com.medialert.medinotiapp.models.Take
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -22,6 +24,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -41,6 +44,7 @@ class PerfilActivity : AppCompatActivity() {
 
         loadUserData()
         setupExportButton()
+        setupExportButtonTake()
     }
 
     private fun loadUserData() {
@@ -192,4 +196,99 @@ class PerfilActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         ).show()
     }
+
+    private fun setupExportButtonTake() {
+        binding.btnExportCalendarTake.setOnClickListener {
+            lifecycleScope.launch {
+                exportMedicationCalendarTake()
+            }
+        }
+    }
+    private suspend fun exportMedicationCalendarTake() {
+        withContext(Dispatchers.IO) {
+            try {
+                // Obtener medicamentos del usuario
+                val medications = medinotiappDatabase.medicationDao()
+                    .getMedicationsByUser(userId)
+                    .first()
+
+                // Obtener tomas para cada medicamento
+                val medicationsWithTakes = medications.map { medication ->
+                    val takes = medinotiappDatabase.medicationDao()
+                        .getTakesForMedication(medication.id)
+                        .first()
+                    medication to takes // Par (Medicamento, List<Take>)
+                }
+
+                // Crear PDF con medicamentos y sus tomas
+                val pdfFile = createPdfFileTaKe(medicationsWithTakes)
+
+                // Compartir archivo
+                withContext(Dispatchers.Main) {
+                    sharePdfFile(pdfFile)
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@PerfilActivity,
+                        "Error al exportar: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+    private fun createPdfFileTaKe(medicationsWithTakes: List<Pair<Medication, List<Take>>>): File {
+        val pdfDocument = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
+        val page = pdfDocument.startPage(pageInfo)
+        val canvas = page.canvas
+        val paint = Paint().apply {
+            textSize = 12f
+        }
+
+        var yPosition = 50f
+
+        // 1. Crear directorio si no existe
+        val downloadsDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+        if (!downloadsDir?.exists()!!) {
+            downloadsDir.mkdirs()
+        }
+
+        // 2. Generar nombre único para el archivo
+        val fileName = "Historial_Tomas_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())}.pdf"
+        val file = File(downloadsDir, fileName)
+
+        try {
+            // 3. Escribir contenido del PDF
+            medicationsWithTakes.forEach { (medication, takes) ->
+                canvas.drawText("Medicamento: ${medication.name}", 50f, yPosition, paint)
+                yPosition += 30f
+
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                takes.forEach { take ->
+                    val formattedDate = take.timestamp.format(formatter)
+                    canvas.drawText(" - Tomado el: $formattedDate", 70f, yPosition, paint)
+                    yPosition += 20f
+                }
+                yPosition += 30f
+            }
+
+            pdfDocument.finishPage(page)
+
+            // 4. Guardar el PDF
+            FileOutputStream(file).use { outputStream ->
+                pdfDocument.writeTo(outputStream)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e // Relanzar para manejar el error en exportMedicationCalendarTake()
+        } finally {
+            pdfDocument.close()
+        }
+
+        return file
+    }
+
 }

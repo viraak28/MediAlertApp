@@ -1,5 +1,6 @@
 package com.medialert.medinotiapp.ui.activities.medications
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -7,11 +8,14 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.medialert.medinotiapp.R
-import com.medialert.medinotiapp.adapters.MedicationAdapter
+import com.medialert.medinotiapp.adapters.WeekAdapter
 import com.medialert.medinotiapp.data.MedinotiappDatabase
 import com.medialert.medinotiapp.databinding.ActivityWeeklyMedicationsBinding
 import com.medialert.medinotiapp.models.Medication
+import com.medialert.medinotiapp.models.Take
+import com.medialert.medinotiapp.utils.DailyItem
 import com.medialert.medinotiapp.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,8 +29,7 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeeklyMedicationsBinding
     private lateinit var medicationDatabase: MedinotiappDatabase
     private lateinit var sessionManager: SessionManager
-    private lateinit var adapter: MedicationAdapter
-    private val medications = mutableListOf<Medication>()
+    private lateinit var adapter: WeekAdapter
     private var currentWeekStart: Calendar = Calendar.getInstance()
     private var currentSelectedDay: Int = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
 
@@ -45,7 +48,6 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
     }
 
     private fun setupWeekNavigation() {
-        // Configurar semana actual
         currentWeekStart = getStartOfWeek(Calendar.getInstance())
         updateWeekDisplay()
 
@@ -63,50 +65,36 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
     }
 
     private fun setupSpinner() {
-        val daysOfWeek = listOf(
-            "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"
-        )
+        val daysOfWeek = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
+        val spinnerAdapter = ArrayAdapter(this, R.layout.item_spinner, daysOfWeek)
 
-        val spinnerAdapter = ArrayAdapter(
-            this,
-            R.layout.item_spinner,
-            daysOfWeek
-        )
-
-        binding.spinnerDays.adapter = spinnerAdapter
-
-        val todayIndex = getTodayIndex()
-
-        binding.spinnerDays.setSelection(todayIndex)
-
-        binding.spinnerDays.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                currentSelectedDay = when (position) {
-                    0 -> Calendar.MONDAY
-                    1 -> Calendar.TUESDAY
-                    2 -> Calendar.WEDNESDAY
-                    3 -> Calendar.THURSDAY
-                    4 -> Calendar.FRIDAY
-                    5 -> Calendar.SATURDAY
-                    6 -> Calendar.SUNDAY
-                    else -> Calendar.MONDAY
+        binding.spinnerDays.apply {
+            adapter = spinnerAdapter
+            setSelection(getTodayIndex())
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    currentSelectedDay = when (position) {
+                        0 -> Calendar.MONDAY
+                        1 -> Calendar.TUESDAY
+                        2 -> Calendar.WEDNESDAY
+                        3 -> Calendar.THURSDAY
+                        4 -> Calendar.FRIDAY
+                        5 -> Calendar.SATURDAY
+                        6 -> Calendar.SUNDAY // Corregido: Domingo como posición 6
+                        else -> Calendar.MONDAY
+                    }
+                    loadMedications()
                 }
-                loadMedications()
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
     private fun setupRecyclerView() {
-        adapter = MedicationAdapter(
-            medications,
-            onTakeClick = null,
-            onEditClick = null,
-            onItemClick = null,
-            onDeleteClick = null
+        adapter = WeekAdapter(
+            emptyList(),
+            onItemClick = { medication -> showMedicationDetails(medication) }
         )
-
         binding.recyclerViewWeeklyMedications.apply {
             layoutManager = LinearLayoutManager(this@WeeklyMedicationsActivity)
             adapter = this@WeeklyMedicationsActivity.adapter
@@ -119,10 +107,11 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
             if (userId != -1) {
                 medicationDatabase.medicationDao().getMedicationsByUser(userId).collect { allMedications ->
                     val filtered = filterMedicationsForWeek(allMedications)
+                    val groupedItems = groupMedicationsByMeal(filtered)
+
                     withContext(Dispatchers.Main) {
-                        medications.clear()
-                        medications.addAll(filtered)
-                        adapter.notifyDataSetChanged()
+                        adapter.updateItems(groupedItems)
+                        if (groupedItems.isEmpty()) showEmptyState() else hideEmptyState()
                     }
                 }
             }
@@ -141,9 +130,20 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
         }
     }
 
+    // CORRECCIÓN CLAVE: Cálculo preciso del día del mes para domingos
+    private fun isDayInMonthlySchedule(med: Medication): Boolean {
+        val calendar = currentWeekStart.clone() as Calendar
+        // Ajuste para días diferentes al lunes inicial
+        val currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        val offset = (currentSelectedDay - currentDayOfWeek + 7) % 7
+        calendar.add(Calendar.DAY_OF_MONTH, offset)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        return med.frecuencyOfTakeMedicineExactDay.contains("Dia $dayOfMonth", ignoreCase = true)
+    }
+
     private fun isDayInWeeklySchedule(med: Medication): Boolean {
         val selectedDayName = getDayName(currentSelectedDay)
-        return med.frecuencyOfTakeMedicineExactDay.contains(selectedDayName, ignoreCase = true) == true
+        return med.frecuencyOfTakeMedicineExactDay.contains(selectedDayName, ignoreCase = true)
     }
 
     private fun isDayInBiweeklySchedule(med: Medication): Boolean {
@@ -152,23 +152,36 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
         val selectedDayName = getDayName(currentSelectedDay)
 
         return if (isEvenWeek) {
-            med.frecuencyOfTakeMedicineExactDay.contains("$selectedDayName (par)", ignoreCase = true) == true
+            med.frecuencyOfTakeMedicineExactDay.contains("$selectedDayName (par)", ignoreCase = true)
         } else {
-            med.frecuencyOfTakeMedicineExactDay.contains("$selectedDayName (impar)", ignoreCase = true) == true
+            med.frecuencyOfTakeMedicineExactDay.contains("$selectedDayName (impar)", ignoreCase = true)
         }
     }
 
-    private fun isDayInMonthlySchedule(med: Medication): Boolean {
-        val dayOfMonth = currentWeekStart.get(Calendar.DAY_OF_MONTH)
-        return med.frecuencyOfTakeMedicineExactDay.contains("Dia $dayOfMonth") == true
+    private fun groupMedicationsByMeal(medications: List<Medication>): List<DailyItem> {
+        val result = mutableListOf<DailyItem>()
+        val mealMap = mapOf(
+            "Desayuno" to { m: Medication -> m.breakfast },
+            "Media mañana" to { m: Medication -> m.midMorning },
+            "Comida" to { m: Medication -> m.lunch },
+            "Merienda" to { m: Medication -> m.snacking },
+            "Cena" to { m: Medication -> m.dinner }
+        )
+
+        mealMap.forEach { (meal, predicate) ->
+            medications.filter(predicate).takeIf { it.isNotEmpty() }?.let {
+                result.add(DailyItem.Header(meal))
+                result.addAll(it.map { med -> DailyItem.Med(med) })
+            }
+        }
+        return result
     }
 
     private fun updateWeekDisplay() {
         val dateFormat = SimpleDateFormat("dd MMM", Locale("es", "ES"))
         val endOfWeek = currentWeekStart.clone() as Calendar
         endOfWeek.add(Calendar.DAY_OF_WEEK, 6)
-
-        binding.txtWeekRange.text ="${dateFormat.format(currentWeekStart.time)} - ${dateFormat.format(endOfWeek.time)}"
+        binding.txtWeekRange.text = "${dateFormat.format(currentWeekStart.time)} - ${dateFormat.format(endOfWeek.time)}"
     }
 
     private fun getStartOfWeek(calendar: Calendar): Calendar {
@@ -186,7 +199,7 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
             Calendar.THURSDAY -> 3
             Calendar.FRIDAY -> 4
             Calendar.SATURDAY -> 5
-            Calendar.SUNDAY -> 6
+            Calendar.SUNDAY -> 6 // Corregido: Domingo en posición 6 del spinner
             else -> 0
         }
     }
@@ -202,5 +215,28 @@ class WeeklyMedicationsActivity : AppCompatActivity() {
             Calendar.SUNDAY -> "Domingo"
             else -> ""
         }
+    }
+
+    private fun showEmptyState() {
+        binding.recyclerViewWeeklyMedications.visibility = View.GONE
+        binding.emptyState.visibility = View.VISIBLE
+    }
+
+    private fun hideEmptyState() {
+        binding.recyclerViewWeeklyMedications.visibility = View.VISIBLE
+        binding.emptyState.visibility = View.GONE
+    }
+
+    private fun showMedicationDetails(medication: Medication) {
+        Intent(this, MedicationDetailActivity::class.java).apply {
+            putExtra("MEDICATION_ID", medication.id)
+            putExtra("MEDICATION_NAME", medication.name)
+            putExtra("MEDICATION_DOSAGE", medication.dosage)
+            putExtra("MEDICATION_FREQUENCY", medication.frequency)
+            putExtra("MEDICATION_AdministrationType", medication.administrationType)
+            putExtra("MEDICATION_dosageQuantity", medication.dosageQuantity)
+            putExtra("MEDICATION_frecuencyOfTakeMedicine", medication.frecuencyOfTakeMedicine)
+            putExtra("MEDICATION_frecuencyOfTakeMedicineExactDay", medication.frecuencyOfTakeMedicineExactDay)
+        }.also { startActivity(it) }
     }
 }
