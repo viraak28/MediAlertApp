@@ -16,7 +16,7 @@
         android:inputType="textMultiLine"
         android:minHeight="200dp"
         android:padding="8dp"
-        android:textSize="18sp" />
+        android:textSize="18dp" />
 
     <!-- Botón para guardar la nota -->
     <Button
@@ -25,6 +25,6 @@
         android:layout_height="wrap_content"
         android:text="Guardar Nota"
         android:backgroundTint="@color/ButtonColorActivity"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:layout_marginTop="16dp" />
 </LinearLayout>

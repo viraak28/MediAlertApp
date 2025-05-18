@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Lun 14/04/2025 13:46"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textColor="#666" />
 
         <!-- Contenido de la anotación -->
@@ -31,6 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Esta es una anotación de ejemplo."
-            android:textSize="18sp" />
+            android:textSize="18dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

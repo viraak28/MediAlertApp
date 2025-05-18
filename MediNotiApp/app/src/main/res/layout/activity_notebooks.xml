@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
         android:text="No hay libretas creadas"
-        android:textSize="22sp"
+        android:textSize="22dp"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView

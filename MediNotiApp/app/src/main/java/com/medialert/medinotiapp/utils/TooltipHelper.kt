@@ -62,7 +62,7 @@ object TooltipHelper {
         context: Context,
         anchorView: View,
         text: String,
-        textSize: Float = 20f,
+        textSize: Float = 22f,
         backgroundColor: Int = Color.BLACK,
         textColor: Int = Color.WHITE,
         duration: Long = 5000L

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:text="Recordatorios"
-            android:textSize="24sp"
+            android:textSize="24dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingTop="8dp"
@@ -61,7 +61,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="DESAYUN0"
-                            android:textSize="25sp"
+                            android:textSize="25dp"
                             android:textStyle="bold" />
 
                         <View
@@ -77,7 +77,7 @@
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:text="DESACTIVAR"
                             android:textAlignment="center"
-                            android:textSize="20sp" />
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -97,7 +97,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="21dp"
                             tools:layout_editor_absoluteY="167dp" />
 
@@ -108,7 +108,7 @@
                             android:clickable="false"
                             android:focusable="false"
                             android:text=":"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
 
@@ -122,7 +122,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
                     </LinearLayout>
@@ -156,7 +156,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="MEDIO DÍA"
-                            android:textSize="25sp"
+                            android:textSize="25dp"
                             android:textStyle="bold" />
 
                         <View
@@ -171,7 +171,7 @@
                             android:text="DESACTIVAR"
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:textAlignment="center"
-                            android:textSize="20sp" />
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -191,7 +191,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="21dp"
                             tools:layout_editor_absoluteY="167dp" />
 
@@ -202,7 +202,7 @@
                             android:clickable="false"
                             android:focusable="false"
                             android:text=":"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
 
@@ -216,7 +216,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
                     </LinearLayout>
@@ -250,7 +250,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="COMIDA"
-                            android:textSize="25sp"
+                            android:textSize="25dp"
                             android:textStyle="bold" />
 
                         <View
@@ -266,7 +266,7 @@
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:text="DESACTIVAR"
                             android:textAlignment="center"
-                            android:textSize="20sp" />
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -286,7 +286,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="21dp"
                             tools:layout_editor_absoluteY="167dp" />
 
@@ -297,7 +297,7 @@
                             android:clickable="false"
                             android:focusable="false"
                             android:text=":"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
 
@@ -311,7 +311,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
                     </LinearLayout>
@@ -345,7 +345,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="MERIENDA"
-                            android:textSize="25sp"
+                            android:textSize="25dp"
                             android:textStyle="bold" />
 
                         <View
@@ -361,7 +361,7 @@
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:text="DESACTIVAR"
                             android:textAlignment="center"
-                            android:textSize="20sp" />
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -381,7 +381,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="21dp"
                             tools:layout_editor_absoluteY="167dp" />
 
@@ -392,7 +392,7 @@
                             android:clickable="false"
                             android:focusable="false"
                             android:text=":"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
 
@@ -406,7 +406,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
                     </LinearLayout>
@@ -440,7 +440,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="CENA"
-                            android:textSize="25sp"
+                            android:textSize="25dp"
                             android:textStyle="bold" />
 
                         <View
@@ -456,7 +456,7 @@
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:text="DESACTIVAR"
                             android:textAlignment="center"
-                            android:textSize="20sp" />
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -476,7 +476,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="21dp"
                             tools:layout_editor_absoluteY="167dp" />
 
@@ -487,7 +487,7 @@
                             android:clickable="false"
                             android:focusable="false"
                             android:text=":"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
 
@@ -501,7 +501,7 @@
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
-                            android:textSize="20sp"
+                            android:textSize="20dp"
                             tools:layout_editor_absoluteX="19dp"
                             tools:layout_editor_absoluteY="130dp" />
                     </LinearLayout>
@@ -514,7 +514,7 @@
                 android:layout_height="wrap_content"
                 android:text="ACTUALIZAR RECORDATORIOS"
                 android:backgroundTint="@color/ButtonColorActivity"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

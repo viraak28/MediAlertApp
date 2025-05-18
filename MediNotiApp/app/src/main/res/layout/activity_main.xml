@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="NOMBRE DE USUARIO LOGGEADO"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:layout_marginBottom="24dp"
         android:layout_gravity="center_horizontal"/>
 
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="MEDICACION HOY"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
 
@@ -75,7 +75,7 @@
                 android:text="MEDICACION POR SEMANA"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
 
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:text="LISTA MEDICAMENTOS"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
 
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:text="LIBRETAS"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
     </LinearLayout>
@@ -135,7 +135,7 @@
         android:layout_marginTop="8dp"
         android:text="MANTÉN PULSADO SOBRE  EL BOTON PARA VER LA DESCRIPCIÓN"
         android:textAlignment="center"
-        android:textSize="17sp"
+        android:textSize="17dp"
         android:textColor="#003E26"
         android:textStyle="bold" />
     <!-- Menú inferior: 3 botones grandes con borde verde -->
@@ -164,7 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Recordatorio"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
@@ -188,7 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Perfil"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
@@ -210,7 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cerrar Sesión"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
     </LinearLayout>

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -19,7 +20,7 @@ class NotebooksAdapter(
 
     inner class NotebookViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val titleTextView: TextView = view.findViewById(R.id.tvNotebookName)
-        private val btnViewNotebook: Button = view.findViewById(R.id.btnViewNotebook)
+        private val btnViewNotebook: ImageButton = view.findViewById(R.id.btnViewNotebook)
         private val btnDeleteNotebook: Button = view.findViewById(R.id.btnDeleteNotebook)
         private val btnAddNote: Button = view.findViewById(R.id.btnAddNote) // Nuevo botón
 

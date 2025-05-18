@@ -85,14 +85,14 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "No hay sesión activa", Toast.LENGTH_SHORT).show()
             }
         }
-        binding.btnPerfil.setOnLongClickListener {
-            showTooltipDialog(
-                context = it.context,
-                anchorView = it,
-                text = "Datos Perfil"
-            )
-            true
-        }
+//        binding.btnPerfil.setOnLongClickListener {
+//            showTooltipDialog(
+//                context = it.context,
+//                anchorView = it,
+//                text = "Datos Perfil"
+//            )
+//            true
+//        }
 
 
         binding.btnMedications.setOnClickListener {
@@ -173,8 +173,7 @@ class MainActivity : AppCompatActivity() {
             showTooltipDialog(
                 context = it.context,
                 anchorView = it,
-                text = "Aqui se puede ver la medicacion por dia de la semana actual.\n" +
-                        "Tambien puede seleccionar la semana que desee ver. "
+                text = "Aqui se ve la medicacion por dia de la semana elegida.\n"
 
             )
             true
@@ -190,8 +189,8 @@ class MainActivity : AppCompatActivity() {
             showTooltipDialog(
                 context = it.context,
                 anchorView = it,
-                text = "Aqui se anotar lo que necesites realizar seguimiento.\n" +
-                        "Puedes crear varias para tenerlo organizado. "
+                text = "Aquí se puede anotar lo que necesites .\n" +
+                        "Puedes crear varias  "
 
             )
             true

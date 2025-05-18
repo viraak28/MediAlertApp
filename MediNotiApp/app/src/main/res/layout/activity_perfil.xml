@@ -24,7 +24,7 @@
         style="@style/Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:textStyle="bold"
         android:text="Nombre"
         android:backgroundTint="@color/back_Text"
@@ -35,14 +35,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:textStyle="bold" />
     <TextView
         android:id="@+id/tvApellido_txt"
         style="@style/Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:textStyle="bold"
         android:text="Apellido"
         android:backgroundTint="@color/back_Text"
@@ -55,14 +55,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:textStyle="bold" />
     <TextView
         android:id="@+id/tvCorreo_txt"
         style="@style/Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:textStyle="bold"
         android:text="Correo"
         android:backgroundTint="@color/back_Text"
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:textStyle="bold" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Opciones"
-                android:textSize="24sp"
+                android:textSize="24dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:backgroundTint="@color/back_Text"
@@ -116,7 +116,7 @@
                 android:drawableStart="@android:drawable/ic_menu_share"
                 android:paddingStart="16dp"
                 android:drawablePadding="8dp"
-                android:textSize="24sp" />
+                android:textSize="24dp" />
             <Button
                 android:id="@+id/btnExportCalendarTake"
                 android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                 android:drawableStart="@android:drawable/ic_menu_share"
                 android:paddingStart="16dp"
                 android:drawablePadding="8dp"
-                android:textSize="24sp" />
+                android:textSize="24dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
