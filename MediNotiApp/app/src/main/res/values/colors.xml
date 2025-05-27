@@ -10,8 +10,11 @@
     <color name="tooltip">#FFFFFF</color>
     <color name="bigbuttonColor">#80EDDE</color>
     <color name="smallbuttonColor">#84B9BC</color>
-    <color name="ButtonColorActivity">#7A64B2BC</color>
-    <color name="ButtonADD">#2A8ED5</color>
-    <color name="back_Text">#73034A64</color>
+    <color name="ButtonColorActivity">#7A054E66</color>
+    <color name="ButtonADD">#99EDD1</color>
+    <color name="back_Text_2">#73034A64</color>
+    <color name="back_Text">#C803334E</color>
     <color name="card_view">#E1F2EB</color>
+    <color name="On_noti">#A1F04B</color>
+    <color name="OFF_noti">#F06D7E</color>
 </resources>

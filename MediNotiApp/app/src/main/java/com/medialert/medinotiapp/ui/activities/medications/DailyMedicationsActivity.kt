@@ -34,7 +34,9 @@ class DailyMedicationsActivity : AppCompatActivity() {
 
         medicationDatabase = MedinotiappDatabase.getDatabase(this)
         sessionManager = SessionManager(this)
-
+        binding.btnBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         setupRecyclerView()
         loadDailyMedications()
     }
@@ -144,11 +146,11 @@ class DailyMedicationsActivity : AppCompatActivity() {
     private fun groupMedicationsByMeal(medications: List<Medication>): List<DailyItem> {
         val result = mutableListOf<DailyItem>()
         val mealMap = mapOf(
-            "Desayuno" to { m: Medication -> m.breakfast },
-            "Media mañana" to { m: Medication -> m.midMorning },
-            "Comida" to { m: Medication -> m.lunch },
-            "Merienda" to { m: Medication -> m.snacking },
-            "Cena" to { m: Medication -> m.dinner }
+            "DESAYUNO" to { m: Medication -> m.breakfast },
+            "MEDIO DÍA" to { m: Medication -> m.midMorning },
+            "COMIDA" to { m: Medication -> m.lunch },
+            "MERIENDA" to { m: Medication -> m.snacking },
+            "CENA" to { m: Medication -> m.dinner }
         )
 
         mealMap.forEach { (meal, predicate) ->
@@ -175,6 +177,11 @@ class DailyMedicationsActivity : AppCompatActivity() {
             putExtra("MEDICATION_FREQUENCY", medication.frequency)
             putExtra("MEDICATION_AdministrationType", medication.administrationType)
             putExtra("MEDICATION_dosageQuantity", medication.dosageQuantity)
+            putExtra("MEDICATION_breakfast", medication.breakfast)
+            putExtra("MEDICATION_midMorning", medication.midMorning)
+            putExtra("MEDICATION_lunch", medication.lunch)
+            putExtra("MEDICATION_snacking", medication.snacking)
+            putExtra("MEDICATION_dinner", medication.dinner)
             putExtra("MEDICATION_frecuencyOfTakeMedicine", medication.frecuencyOfTakeMedicine)
             putExtra("MEDICATION_frecuencyOfTakeMedicineExactDay", medication.frecuencyOfTakeMedicineExactDay)
         }.also { startActivity(it) }

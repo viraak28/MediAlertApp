@@ -36,7 +36,9 @@ class NotebooksActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this);
         userId = sessionManager.getUserId()
-
+        findViewById<FloatingActionButton>(R.id.btnBack).setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         setupRecyclerView()
         setupFab()
 

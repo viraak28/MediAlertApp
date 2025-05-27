@@ -9,10 +9,11 @@
         style="@style/AppTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Medicacion hoy"
+        android:text="MEDICACIÓN HOY"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="24dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="8dp"
+        android:layout_marginTop="15dp"
         tools:listitem="@layout/item_medication_daily"
         app:layout_constraintTop_toBottomOf="@id/activityTitle"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,4 +36,21 @@
         android:text="No hay medicamentos para hoy 🎉"
         android:textSize="18dp"
         android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnBack"
+        android:contentDescription="Atrás"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:backgroundTint="@color/ButtonADD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:srcCompat="@drawable/arrow_back_24dp_000000_fill0_wght400_grad0_opsz24"
+        tools:ignore="MissingConstraints"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

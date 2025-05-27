@@ -41,6 +41,18 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterUserActivity::class.java)
             startActivity(intent)
         }
+        binding.etContrasena.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE ||
+                actionId == android.view.inputmethod.EditorInfo.IME_ACTION_GO ||
+                actionId == android.view.inputmethod.EditorInfo.IME_ACTION_NEXT ||
+                actionId == android.view.inputmethod.EditorInfo.IME_NULL
+            ) {
+                iniciarSesion()
+                true
+            } else {
+                false
+            }
+        }
     }
 
     private fun iniciarSesion() {

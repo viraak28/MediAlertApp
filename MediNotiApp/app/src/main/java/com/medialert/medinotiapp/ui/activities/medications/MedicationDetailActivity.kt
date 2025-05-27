@@ -42,6 +42,11 @@ class MedicationDetailActivity : AppCompatActivity() {
         val medicationFrequency = intent.getStringExtra("MEDICATION_FREQUENCY") ?: ""
         val medicationAdministrationType = intent.getStringExtra("MEDICATION_AdministrationType") ?: ""
         val medicationDosageQuantity = intent.getStringExtra("MEDICATION_dosageQuantity") ?: ""
+        val MedicationBreakfast = intent.getBooleanExtra("MEDICATION_breakfast", false)
+        val MedicationMidMorning = intent.getBooleanExtra("MEDICATION_midMorning", false)
+        val MedicationLunch = intent.getBooleanExtra("MEDICATION_lunch", false)
+        val MedicationSnacking = intent.getBooleanExtra("MEDICATION_snacking", false)
+        val MedicationDinner = intent.getBooleanExtra("MEDICATION_dinner", false)
         val medicationFreqTake = intent.getStringExtra("MEDICATION_frecuencyOfTakeMedicine")?: ""
         val medicationFreqTakeExact = intent.getStringExtra("MEDICATION_frecuencyOfTakeMedicineExactDay")?: ""
         // Mostrar datos en las vistas
@@ -50,6 +55,16 @@ class MedicationDetailActivity : AppCompatActivity() {
         binding.tvMedicationFrequency.text = medicationFrequency
         binding.tvMedicationDosageQuantity.text = "$medicationDosageQuantity $medicationAdministrationType"
         binding.tvMedicationFreqtake.text ="$medicationFreqTake $medicationFreqTakeExact"
+
+        val switchStates = buildString {
+            if (MedicationBreakfast) append("DESAYUNO, ")
+            if (MedicationMidMorning) append("MEDIO DÍA, ")
+            if (MedicationLunch) append("COMIDA, ")
+            if (MedicationSnacking) append("MERIENDA, ")
+            if (MedicationDinner) append("CENA")
+        }.trimEnd(',', ' ')
+
+        binding.tvMedicationHour.text = "$switchStates"
 
         // Configurar RecyclerView y mostrar las tomas
         setupRecyclerView()

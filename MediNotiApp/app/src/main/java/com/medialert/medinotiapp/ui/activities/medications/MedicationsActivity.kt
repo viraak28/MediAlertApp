@@ -35,6 +35,10 @@ class MedicationsActivity : AppCompatActivity() {
         medicationDatabase = MedinotiappDatabase.getDatabase(this)
         sessionManager = SessionManager(this)
 
+        binding.btnBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         setupRecyclerView()
         setupFab()
 
@@ -70,6 +74,7 @@ class MedicationsActivity : AppCompatActivity() {
         }
     }
 
+
     private fun showMedicationDetails(medication: Medication) {
         val intent = Intent(this, MedicationDetailActivity::class.java).apply {
             putExtra("MEDICATION_ID", medication.id)
@@ -78,6 +83,11 @@ class MedicationsActivity : AppCompatActivity() {
             putExtra("MEDICATION_FREQUENCY", medication.frequency)
             putExtra("MEDICATION_AdministrationType", medication.administrationType)
             putExtra("MEDICATION_dosageQuantity", medication.dosageQuantity)
+            putExtra("MEDICATION_breakfast", medication.breakfast)
+            putExtra("MEDICATION_midMorning", medication.midMorning)
+            putExtra("MEDICATION_lunch", medication.lunch)
+            putExtra("MEDICATION_snacking", medication.snacking)
+            putExtra("MEDICATION_dinner", medication.dinner)
             putExtra("MEDICATION_frecuencyOfTakeMedicine", medication.frecuencyOfTakeMedicine)
             putExtra("MEDICATION_frecuencyOfTakeMedicineExactDay", medication.frecuencyOfTakeMedicineExactDay)
         }

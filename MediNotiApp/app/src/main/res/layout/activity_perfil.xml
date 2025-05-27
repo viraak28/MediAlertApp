@@ -78,13 +78,23 @@
         android:gravity="center"
         android:textSize="24dp"
         android:textStyle="bold" />
+            <Button
+                android:id="@+id/btnCambiarContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="24dp"
+                android:backgroundTint="@color/ButtonColorActivity"
+                android:text="Cambiar contraseña" />
+
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
@@ -129,6 +139,7 @@
                 android:paddingStart="16dp"
                 android:drawablePadding="8dp"
                 android:textSize="24dp" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

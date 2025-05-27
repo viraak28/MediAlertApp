@@ -27,6 +27,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageButton
+            android:id="@+id/btnViewMedi"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:src="@drawable/visibility_24dp_ffffff_fill0_wght400_grad0_opsz24"
+            android:backgroundTint="@color/ButtonColorActivity"
+            android:contentDescription="Ver"
+            app:layout_constraintTop_toTopOf="@id/tvMedicationName"
+            app:layout_constraintBottom_toBottomOf="@id/tvMedicationName"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="4dp"
+            android:scaleType="centerInside"/>
 
 
         <TextView

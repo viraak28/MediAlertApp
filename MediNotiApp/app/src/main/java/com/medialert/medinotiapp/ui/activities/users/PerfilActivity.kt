@@ -42,6 +42,10 @@ class PerfilActivity : AppCompatActivity() {
         medinotiappDatabase = MedinotiappDatabase.getDatabase(this)
         userId = intent.getIntExtra("USUARIO_ID", -1)
 
+        binding.btnCambiarContrasena.setOnClickListener {
+            cambiarContrasena()
+        }
+
         loadUserData()
         setupExportButton()
         setupExportButtonTake()
@@ -289,6 +293,11 @@ class PerfilActivity : AppCompatActivity() {
         }
 
         return file
+    }
+
+    private fun cambiarContrasena() {
+        val intent = Intent(this, CambiarContrasenaActivity::class.java)
+        startActivity(intent)
     }
 
 }

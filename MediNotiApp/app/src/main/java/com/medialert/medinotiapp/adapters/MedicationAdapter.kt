@@ -3,7 +3,9 @@ package com.medialert.medinotiapp.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
+import com.medialert.medinotiapp.R
 import com.medialert.medinotiapp.databinding.ItemMedicationBinding
 import com.medialert.medinotiapp.models.Medication
 
@@ -57,11 +59,11 @@ open class MedicationAdapter(
             binding.btnEditMedication.setOnClickListener { onEditClick?.invoke(medication) }
             binding.root.setOnClickListener { onItemClick?.invoke(medication) }
             binding.btnDelete.setOnClickListener { onDeleteClick?.invoke(medication) }
-
+            binding.btnViewMedi.setOnClickListener { onItemClick?.invoke(medication) }
             // Configurar las tomas del día:
             val switchStates = buildString {
                 if (medication.breakfast) append("DESAYUNO, ")
-                if (medication.midMorning) append("MEDIA MAÑANA, ")
+                if (medication.midMorning) append("MEDIO DÍA, ")
                 if (medication.lunch) append("COMIDA, ")
                 if (medication.snacking) append("MERIENDA, ")
                 if (medication.dinner) append("CENA")

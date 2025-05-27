@@ -65,7 +65,8 @@ object TooltipHelper {
         textSize: Float = 22f,
         backgroundColor: Int = Color.BLACK,
         textColor: Int = Color.WHITE,
-        duration: Long = 5000L
+        duration: Long = 4000L,
+        onDismiss: () -> Unit = {}
     ) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -81,7 +82,6 @@ object TooltipHelper {
         layout?.background = ContextCompat.getDrawable(context, R.drawable.bg_tooltip)
             ?.apply { setTint(backgroundColor) }
 
-        // Calcula la posición y tamaño del botón
         val location = IntArray(2)
         anchorView.getLocationOnScreen(location)
         val params = dialog.window?.attributes
@@ -89,6 +89,7 @@ object TooltipHelper {
         params?.height = anchorView.height
         params?.x = location[0]
         params?.y = location[1]
+        params?.y = location[1] - 120
         params?.gravity = Gravity.TOP or Gravity.START
         dialog.window?.attributes = params
 
@@ -99,6 +100,11 @@ object TooltipHelper {
         Handler(Looper.getMainLooper()).postDelayed({
             if (dialog.isShowing) dialog.dismiss()
         }, duration)
+
+        // Listener para cuando se cierre el diálogo
+        dialog.setOnDismissListener {
+            onDismiss.invoke()
+        }
     }
 
 }

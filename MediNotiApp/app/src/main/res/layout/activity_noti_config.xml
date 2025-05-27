@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnBack"
+        android:contentDescription="Atrás"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:clickable="true"
+        android:backgroundTint="@color/ButtonADD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:srcCompat="@drawable/arrow_back_24dp_000000_fill0_wght400_grad0_opsz24"
+        />
+
+    <!-- Contenido scrollable -->
+    <ScrollView
+        android:id="@+id/scrollViewContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnCreateReminders"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
 
         <Switch
@@ -31,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/BreakfastCard"
@@ -61,7 +86,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="DESAYUN0"
-                            android:textSize="25dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <View
@@ -71,13 +96,12 @@
 
                         <Button
                             android:id="@+id/btnDeactivateBreakfastNoti"
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:text="DESACTIVAR"
                             android:textAlignment="center"
-                            android:textSize="20dp" />
+                            android:textSize="18dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -91,15 +115,14 @@
                             android:id="@+id/etMedicationBreakfastHour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="21dp"
-                            tools:layout_editor_absoluteY="167dp" />
+                            android:textSize="20dp"/>
 
                         <TextView
                             android:id="@+id/etMedicationBreakfastdivision"
@@ -108,23 +131,20 @@
                             android:clickable="false"
                             android:focusable="false"
                             android:text=":"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                            android:textSize="20dp" />
 
                         <EditText
                             android:id="@+id/etMedicationBreakfastMinute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                            android:textSize="20dp" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -156,7 +176,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="MEDIO DÍA"
-                            android:textSize="25dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <View
@@ -171,7 +191,7 @@
                             android:text="DESACTIVAR"
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:textAlignment="center"
-                            android:textSize="20dp" />
+                            android:textSize="18dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -185,15 +205,14 @@
                             android:id="@+id/etMedicationMidMorningHour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="21dp"
-                            tools:layout_editor_absoluteY="167dp" />
+                            android:textSize="20dp" />
 
                         <TextView
                             android:id="@+id/etMedicationMidMorningdivision"
@@ -202,23 +221,20 @@
                             android:clickable="false"
                             android:focusable="false"
                             android:text=":"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                            android:textSize="20dp"/>
 
                         <EditText
                             android:id="@+id/etMedicationMidMorningMinute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                            android:textSize="20dp" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -250,7 +266,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="COMIDA"
-                            android:textSize="25dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <View
@@ -260,13 +276,12 @@
 
                         <Button
                             android:id="@+id/btnDeactivateLunchNoti"
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:text="DESACTIVAR"
                             android:textAlignment="center"
-                            android:textSize="20dp" />
+                            android:textSize="18dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -280,15 +295,14 @@
                             android:id="@+id/etMedicationLunchHour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="21dp"
-                            tools:layout_editor_absoluteY="167dp" />
+                            android:textSize="20dp" />
 
                         <TextView
                             android:id="@+id/etMedicationLunchdivision"
@@ -297,23 +311,20 @@
                             android:clickable="false"
                             android:focusable="false"
                             android:text=":"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                            android:textSize="20dp" />
 
                         <EditText
                             android:id="@+id/etMedicationLunchMinute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                            android:textSize="20dp"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -345,7 +356,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="MERIENDA"
-                            android:textSize="25dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <View
@@ -361,7 +372,7 @@
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:text="DESACTIVAR"
                             android:textAlignment="center"
-                            android:textSize="20dp" />
+                            android:textSize="18dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -375,15 +386,14 @@
                             android:id="@+id/etMedicationSnackingHour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
-                            android:textSize="20dp"
-                            tools:layout_editor_absoluteX="21dp"
-                            tools:layout_editor_absoluteY="167dp" />
+                            android:textSize="20dp" />
 
                         <TextView
                             android:id="@+id/etMedicationSnackingdivision"
@@ -393,22 +403,21 @@
                             android:focusable="false"
                             android:text=":"
                             android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                            />
 
                         <EditText
                             android:id="@+id/etMedicationSnackingMinute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
                             android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                            />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -440,7 +449,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="CENA"
-                            android:textSize="25dp"
+                            android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <View
@@ -456,7 +465,7 @@
                             android:backgroundTint="@color/ButtonColorActivity"
                             android:text="DESACTIVAR"
                             android:textAlignment="center"
-                            android:textSize="20dp" />
+                            android:textSize="18dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -470,15 +479,15 @@
                             android:id="@+id/etMedicationDinnerHour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Hora"
                             android:textSize="20dp"
-                            tools:layout_editor_absoluteX="21dp"
-                            tools:layout_editor_absoluteY="167dp" />
+                            />
 
                         <TextView
                             android:id="@+id/etMedicationDinnerdivision"
@@ -488,33 +497,39 @@
                             android:focusable="false"
                             android:text=":"
                             android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                             />
 
                         <EditText
                             android:id="@+id/etMedicationDinnerMinute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
+                            android:maxLength="2"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="8dp"
                             android:text="Minutos"
                             android:textSize="20dp"
-                            tools:layout_editor_absoluteX="19dp"
-                            tools:layout_editor_absoluteY="130dp" />
+                             />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/btnCreateReminders"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ACTUALIZAR RECORDATORIOS"
-                android:backgroundTint="@color/ButtonColorActivity"
-                android:textSize="20dp" />
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
+
+    <!-- Botón fijo en la parte inferior -->
+    <Button
+        android:id="@+id/btnCreateReminders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ACTUALIZAR RECORDATORIOS"
+        android:backgroundTint="@color/ButtonColorActivity"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-
+    <!-- Botón para guardar la nota -->
+    <Button
+        android:id="@+id/btnSaveNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar Nota"
+        android:backgroundTint="@color/ButtonColorActivity"
+        android:textSize="18dp"
+        android:layout_marginTop="16dp" />
     <!-- Entrada de texto para la nota -->
     <EditText
         android:id="@+id/etNoteContent"
@@ -17,14 +25,10 @@
         android:minHeight="200dp"
         android:padding="8dp"
         android:textSize="18dp" />
-
-    <!-- Botón para guardar la nota -->
-    <Button
-        android:id="@+id/btnSaveNote"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Guardar Nota"
-        android:backgroundTint="@color/ButtonColorActivity"
-        android:textSize="18dp"
-        android:layout_marginTop="16dp" />
+        android:layout_height="2dp"
+        android:background="@color/black"/>
+
+
 </LinearLayout>
