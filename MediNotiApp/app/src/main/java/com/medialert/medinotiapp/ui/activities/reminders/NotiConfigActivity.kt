@@ -11,9 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.work.Data
@@ -42,14 +40,12 @@ class NotiConfigActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNotiConfigBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.btnBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
+
         sessionManager = SessionManager(this)
         setupPermissionLauncher()
         cargarEstado()
-        verificarMedicamentosIniciales()
         setupUI()
+        verificarMedicamentosIniciales()
     }
 
     private fun setupPermissionLauncher() {
@@ -117,9 +113,6 @@ class NotiConfigActivity : AppCompatActivity() {
     }
 
     private fun verificarMedicamentosIniciales() {
-        val prefsName = "recordatorios_prefs_${sessionManager.getUserId()}"
-        val prefs = getSharedPreferences(prefsName, MODE_PRIVATE)
-
         lifecycleScope.launch(Dispatchers.IO) {
             listOf(
                 "Desayuno" to binding.btnDeactivateBreakfastNoti,
@@ -128,8 +121,7 @@ class NotiConfigActivity : AppCompatActivity() {
                 "Merienda" to binding.btnDeactivateSnackingNoti,
                 "Cena" to binding.btnDeactivateDinnerNoti
             ).forEach { (comida, button) ->
-                val estado = prefs.getString("estado_$comida", "ACTIVAR")
-                if (!tieneMedicamentosAsociados(comida) || estado == "ACTIVAR") {
+                if (!tieneMedicamentosAsociados(comida)) {
                     withContext(Dispatchers.Main) {
                         button.text = "ACTIVAR"
                         disableTimeInputsForMeal(comida)
@@ -169,30 +161,6 @@ class NotiConfigActivity : AppCompatActivity() {
     private fun toggleButtonState(button: Button) {
         val wasActivated = button.text == "DESACTIVAR"
         button.text = if (wasActivated) "ACTIVAR" else "DESACTIVAR"
-
-        val colorRojo = ContextCompat.getColor(this, R.color.OFF_noti)
-        val colorPorDefecto = ContextCompat.getColor(this, R.color.On_noti)
-
-        var parent = button.parent
-        while (parent != null && parent !is androidx.cardview.widget.CardView) {
-            parent = (parent as View).parent
-        }
-        if (parent is androidx.cardview.widget.CardView) {
-            val cardView = parent as androidx.cardview.widget.CardView
-            cardView.setCardBackgroundColor(
-                if (button.text == "DESACTIVAR") colorPorDefecto else colorRojo
-            )
-        }
-
-        listOf(
-            "Desayuno" to binding.BreakfastCard,
-            "Media Mañana" to binding.MidMorningCard,
-            "Comida" to binding.LunchCard,
-            "Merienda" to binding.SnackingCard,
-            "Cena" to binding.DinnerCard
-        ).forEach { (comida, cardview) ->
-
-        }
 
         val comida = when (button.id) {
             R.id.btnDeactivateBreakfastNoti -> "Desayuno"
@@ -395,25 +363,7 @@ class NotiConfigActivity : AppCompatActivity() {
             "Cena" to binding.btnDeactivateDinnerNoti
         ).forEach { (comida, button) ->
             button.text = prefs.getString("estado_$comida", "ACTIVAR")
-
         }
-
-        val colorRojo = ContextCompat.getColor(this, R.color.OFF_noti)
-        val colorPorDefecto = ContextCompat.getColor(this, R.color.On_noti)
-
-        listOf(
-            "Desayuno" to binding.BreakfastCard,
-            "Media Mañana" to binding.MidMorningCard,
-            "Comida" to binding.LunchCard,
-            "Merienda" to binding.SnackingCard,
-            "Cena" to binding.DinnerCard
-        ).forEach { (comida, cardview) ->
-            val estado = prefs.getString("estado_$comida", "ACTIVAR")
-            cardview.setCardBackgroundColor(
-                if (estado == "DESACTIVAR") colorPorDefecto else colorRojo
-            )
-        }
-
 
         // Cargar horas
         binding.etMedicationBreakfastHour.setText(prefs.getString("horaDesayunoHour", "07"))
@@ -481,7 +431,7 @@ class NotiConfigActivity : AppCompatActivity() {
             binding.etMedicationDinnerMinute
         ).forEach { editText ->
             editText.addTextChangedListener {
-                //guardarEstado()
+                guardarEstado()
             }
         }
     }

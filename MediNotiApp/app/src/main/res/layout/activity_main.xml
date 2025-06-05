@@ -129,31 +129,22 @@
         </LinearLayout>
     </LinearLayout>
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:text="MANTÉN PULSADO SOBRE  EL BOTON PARA VER LA DESCRIPCIÓN"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textSize="17dp"-->
-<!--        android:textColor="#003E26"-->
-<!--        android:textStyle="bold" />-->
-    <ImageButton
-        android:id="@+id/btnShowAllTooltips"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="1dp"
-        android:backgroundTint="@color/smallbuttonColor"
-        android:src="@drawable/help_24dp_000000_fill0_wght400_grad0_opsz24"
-        android:textColor="#020202" />
+        android:layout_marginTop="8dp"
+        android:text="MANTÉN PULSADO SOBRE  EL BOTON PARA VER LA DESCRIPCIÓN"
+        android:textAlignment="center"
+        android:textSize="17dp"
+        android:textColor="#003E26"
+        android:textStyle="bold" />
     <!-- Menú inferior: 3 botones grandes con borde verde -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="24dp">
 
         <LinearLayout
             android:id="@+id/btnReminders"

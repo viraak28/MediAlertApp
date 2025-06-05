@@ -14,34 +14,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
 
         <!-- Nombre del medicamento -->
         <TextView
             android:id="@+id/tvMedicationName"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Nombre del Medicamento"
             android:textSize="25dp"
             android:textStyle="bold"
             android:ellipsize="end"
             android:maxLines="1" />
-
-        <ImageButton
-            android:id="@+id/btnViewMedi"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:src="@drawable/visibility_24dp_ffffff_fill0_wght400_grad0_opsz24"
-            android:backgroundTint="@color/ButtonColorActivity"
-            android:contentDescription="Ver"
-            android:layout_gravity="center"/>
-
-    </LinearLayout>
 
       <!-- Dosis del medicamento  -->
 <!--        <TextView-->

@@ -28,7 +28,7 @@ class EditMedicationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMedicationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.etAppTitle.text = ("EDITA UN MEDICAMENTO")
+
         medicationDatabase = MedinotiappDatabase.getDatabase(this)
         sessionManager = SessionManager(this)
 

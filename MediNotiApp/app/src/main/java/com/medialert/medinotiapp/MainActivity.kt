@@ -40,10 +40,6 @@ class MainActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
         medinotiappDatabase = MedinotiappDatabase.getDatabase(this)
 
-        binding.btnShowAllTooltips.setOnClickListener {
-            showAllTooltips()
-        }
-
         displayUsername()
 
         setupNavigationButtons()
@@ -72,10 +68,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-//        sessionManager.clearSession()
-//        val intent = Intent(this, SplashScreenActivity::class.java)
-//        startActivity(intent)
-//        finish()
+        sessionManager.clearSession()
+        val intent = Intent(this, SplashScreenActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun setupNavigationButtons() {
@@ -217,32 +213,4 @@ class MainActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("dd MMM", Locale("es", "ES"))
         return "${dateFormat.format(startOfWeek)} - ${dateFormat.format(endOfWeek)}"
     }
-
-    private fun showAllTooltips() {
-        showTooltipDialog(
-            context = this,
-            anchorView = binding.btnDay,
-            text = "Medicación que se debe tomar hoy"
-        ) {
-            showTooltipDialog(
-                context = this,
-                anchorView = binding.btnWeek,
-                text = "Aquí se ve la medicación por día de la semana elegida."
-            ) {
-                showTooltipDialog(
-                    context = this,
-                    anchorView = binding.btnMedications,
-                    text = "Registro de la medicación por usuario"
-                ) {
-                    showTooltipDialog(
-                        context = this,
-                        anchorView = binding.btnNotebook,
-                        text = "Aquí se puede anotar lo que necesites. Puedes crear varias libretas."
-                    )
-                }
-            }
-        }
-    }
-
-
 }

@@ -68,9 +68,6 @@ class DailyAdapter(private val items: List<DailyItem>,
             itemView.setOnClickListener {
                 onItemClick?.invoke(medication)
             }
-            itemView.findViewById<View>(R.id.btnViewMedi)?.setOnClickListener {
-                onItemClick?.invoke(medication)
-            }
         }
 
     }

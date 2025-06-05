@@ -14,7 +14,6 @@
         android:layout_marginTop="8dp">
 
         <TextView
-            android:id="@+id/etAppTitle"
             style="@style/AppTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
